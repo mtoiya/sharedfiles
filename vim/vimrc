@@ -1,0 +1,20 @@
+" .vim/bundle/plugin_nameを読み込むようにする
+call pathogen#incubate()
+
+
+
+
+
+""""""""""
+" その他の環境設定
+
+if has("unix")
+  set backupdir=~/tmp
+elseif has("win32")
+  set backupdir=~/tmp
+endif
+
+nnoremap ; :
+
+" インサートモードからノーマルモードへの切り替えを楽にします。
+inoremap <C-j> <ESC>
