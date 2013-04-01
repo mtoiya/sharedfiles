@@ -78,8 +78,67 @@ let g:unite_source_grep_max_candidates=10000
 
 
 """"""""""
+" カレントディレクトリ移動のためのキーマッピングを定義
+"	CDというコマンドを定義し、,cdに割り当てる。コマンドが引数なしで呼び出されたときは、現在開いているファイルと同じディレクトリに移動し、そうでない場合は引数のディレクトリに移動。
+"	:CD!として呼び出された場合、移動先のカレントディレクトリを表示し、どこに移動したのかを分かり易くする。
+"	-> http://vim-users.jp/2009/09/hack69/
+
+command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>') 
+function! s:ChangeCurrentDir(directory, bang)
+    if a:directory == ''
+        lcd %:p:h
+    else
+        execute 'lcd' . a:directory
+    endif
+
+    if a:bang == ''
+        pwd
+    endif
+endfunction
+
+" Change current directory.
+"nnoremap <silent> ,cd :<C-u>CD<CR>
+
+
+
+
+
+""""""""""
+" 日本語入力固定モード
+
+" 「日本語入力固定モード」の動作モード
+let IM_CtrlMode = 4
+
+" 「日本語入力固定モード」切替キー
+inoremap <silent> <C-k> <C-^><C-r>=IMState('FixMode')<CR>
+
+
+
+
+
+""""""""""
 " その他の環境設定
 
+set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+" ツールバーを非表示にする
+set guioptions-=T
+
+" スクロールバーを非表示にする
+set guioptions-=rL
+
+" GUIバージョンでなければマウス操作を無効にする
+if !has("gui_running")
+  set mouse=
+endif
+
+" タグファイル
+set tags=TAGS
+
+" バックアップディレクトリ
 if has("unix")
   set backupdir=~/tmp
 elseif has("win32")
@@ -90,3 +149,29 @@ nnoremap ; :
 
 " インサートモードからノーマルモードへの切り替えを楽にします。
 inoremap <C-j> <ESC>
+
+
+
+
+
+""""""""""
+" Windows固有の設定
+
+if has("win32")
+
+  " Swapファイルを作らない
+  set noswapfile
+
+  " メニューバーを非表示にする
+  set guioptions-=m
+
+  " grepツール
+  "set grepprg="D:/Applications/GnuWin32/bin/grep.exe"
+  "let g:unite_source_grep_command="D:/Applications/GnuWin32/bin/grep.exe"
+
+  " SVNの設定（途中）
+  "let g:VCSCommandSVNExec = $ProgramFiles . "/Subversion/bin/svn.exe"
+
+  " 起動時のディレクトリ設定
+  cd C:/Users/toiya
+endif

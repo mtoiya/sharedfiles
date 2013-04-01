@@ -7,3 +7,6 @@
 [submodule "vim/vimfiles/bundle/unite.vim"]
 	path = vim/vimfiles/bundle/unite.vim
 	url = https://github.com/Shougo/unite.vim.git
+[submodule "vim/vimfiles/bundle/im_control.vim"]
+	path = vim/vimfiles/bundle/im_control.vim
+	url = https://github.com/fuenor/im_control.vim.git
