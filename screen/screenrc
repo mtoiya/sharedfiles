@@ -1,0 +1,22 @@
+# 起動キーの変更
+escape ^t^t
+
+# 起動時のメッセージを抑制
+startup_message off
+
+# 起動シェルを設定
+shell zsh
+
+# スクロールバッファサイズの設定
+scrollback 4000
+
+# マウスホイールでスクロールできるようにする。
+termcapinfo xterm* ti@:te@
+
+# ウィンドウタイトル一覧を表示します。
+#hardstatus alwayslastline "%w"
+#hardstatus alwayslastline "%`%-w%{=b Wb}%n %t%{-}%+w"
+hardstatus alwayslastline "%?%F%{= wk}%:%{= wk}%?%-w%{=bu Wk}%n %t%{-}%+w"
+
+# 実行中のコマンドの表示
+#shelltitle '$ |hoge'

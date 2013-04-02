@@ -1,0 +1,6 @@
+set autosourcereload
+set cgdbmodekey=<C-J>
+set tabstop=4
+map <F6> :next<CR>
+map <F7> :step<CR>
+map <F8> :finish<CR>

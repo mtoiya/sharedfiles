@@ -1,0 +1,24 @@
+PS1='\W \$ '
+HISTCONTROL=ignoreboth
+
+if [ -f "${HOME}/.shrc" ]
+then
+  source ${HOME}/.shrc
+fi
+
+if [ -f "${HOME}/etc/shrc" ]
+then
+  source ${HOME}/etc/shrc
+fi
+
+if [ -f "${HOME}/.sh_aliases" ]
+then
+  source ${HOME}/.sh_aliases
+fi
+
+if [ -e "${HOME}/.sh_functions" ]
+then
+  source "${HOME}/.sh_functions"
+fi
+
+set -o vi

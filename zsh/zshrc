@@ -1,0 +1,69 @@
+PROMPT="%% "
+RPROMPT="[%~]"
+
+autoload -U compinit
+compinit
+
+bindkey -e
+
+setopt AUTO_CD
+setopt AUTO_PUSHD
+
+if [[ -f "$HOME/.shrc" ]]
+then
+  source $HOME/.shrc
+fi
+
+if [[ -f "$HOME/etc/shrc" ]]
+then
+  source $HOME/etc/shrc
+fi
+
+if [[ -f "$HOME/.sh_aliases" ]]
+then
+  source $HOME/.sh_aliases
+fi
+alias -g N='> /dev/null'
+
+if [[ -f "$HOME/.sh_functions" ]]
+then
+  source $HOME/.sh_functions
+fi
+
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=9999
+SAVEHIST=9999
+setopt extended_history
+
+if [[ -e "$HOME/.myprojects" ]]
+then
+  for rcfile in $HOME/.myprojects/*.rc
+  do
+      source $rcfile
+  done
+fi
+
+autoload -U zmv
+alias mmv='noglob zmv -W'
+
+# 補完候補を一覧表示
+#setopt auto_list
+
+# 補完候補一覧でファイル種別をマーク表示
+#setopt list_types
+
+# screenで実行中のコマンド名をウィンドウタイトルとして表示するための設定
+case "${TERM}" in screen)
+    preexec() {
+        echo -ne "\ek#${1%% *}\e\\"
+    }
+    precmd() {
+        echo -ne "\ek${HOST}\e\\"
+    }
+esac
+
+# 小文字を大文字に変換しつつ補完する。具体的には以下のようなルール記述を意味する。
+# 1. まず入力された文字そのままで補完してみて
+# 2. それでマッチするものがなければ，小文字を大文字に変えつつ補完してみて
+# 3. それでもマッチするものがなければ，大文字を小文字に変えるルールを追加（`+'）して補完してみよ
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'

@@ -1,0 +1,240 @@
+function reload_kext
+{
+	local KEXT=${1:?"kext name is empty"}
+
+	sudo kextprepare ${KEXT}
+	sudo /sbin/kextunload ${KEXT}
+	sudo /sbin/kextload ${KEXT}
+}
+
+function remount_disk
+{
+	local num=${1:?"Error"}
+
+	if disk_action unmount $num
+	then
+		disk_action mount $num
+	fi
+}
+
+function disk_action
+{
+	local action=${1:?"Error"}
+	local num=${2:?"Error"}
+	local disk="/dev/disk${num}"
+	diskutil $action $disk
+}
+
+function rename_disk
+{
+	local num=${1:?"Error"}
+	local name=${2:?"Error"}
+	local disk="/dev/disk${num}"
+	diskutil rename $disk $name
+}
+
+function remote_mount
+{
+	local url=${1:?"Error: argument"}
+	printf "mounting ${url}\n"
+	osascript -e "tell application \"Finder\" to mount volume \"${url}\""
+}
+
+function realias
+{
+	${EDITOR} ${HOME}/.bash_aliases
+	source ${HOME}/.bash_aliases
+}
+
+function notify_error
+{
+	local arg=$1
+	local GN='/usr/local/bin/growlnotify'
+	local TTY=`tty`
+
+	TTY=`basename ${TTY}`
+
+	if [ ${arg} -eq 0 ]
+	then
+		${GN} -t "${TTY}" -m 'Succeeded'
+	else
+		${GN} -t "${TTY}" -m 'Failed'
+	fi
+}
+
+function secure_copy_to_ssh_client
+{
+	scp "$@" ${SSH_CLIENT%% *}:
+}
+
+function make_shell_script
+{
+	local script=$1
+	cat > $script << 'EOF'
+#!/bin/sh
+
+PROGRAM=`basename $0`
+
+usage()
+{
+	printf "usage: $PROGRAM\n"
+}
+
+usage_and_exit()
+{
+	usage
+	exit $1
+}
+
+error()
+{
+	printf "Error: $@\n" 1>&2
+	usage_and_exit 1
+}
+
+EOF
+
+	chmod a+x $script
+}
+
+function symlink_to_hotdir
+{
+	local src=$1
+	local dst=`basename $src`
+	ln -s $src ${HOME}/hot/${dst}
+}
+
+function svn_unknown_files
+{
+	svn st | grep '^\?' | tr '^\?' ' ' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function svn_modified_files
+{
+	svn st | grep '^M' | sed 's/^M//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function svn_missed_files
+{
+	svn st | grep '^!' | sed 's/^!//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function svn_add_unknown_files
+{
+	svn st | grep '^?' | sed 's/^?[\ ]*//' | sed 's/[ ]/\\ /g' | xargs svn add
+}
+
+function svk_unknown_files
+{
+	svk st | grep '^\?' | tr '^\?' ' ' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function svk_add_unknown_files
+{
+#svk st | grep '^\?' | tr '^\?' ' ' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g' | xargs svk add
+	svk_unknown_files | xargs svk add
+}
+
+function bzr_modified_files
+{
+	bzr st -S | grep '^\ M' | sed 's/^\ M\**//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function git_modified_files
+{
+	local dir=${1:-.}
+	git status -s "$dir" | grep '^\ M' | sed 's/^\ M\**//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function git_unknown_files
+{
+	local dir=${1:-.}
+	git status -s "$dir" | grep '^??' | sed 's/^??[\ ]*//' | sed 's/[ ]/\\ /g'
+}
+
+function git_deleted_files
+{
+	local dir=${1:-.}
+	git status -s "$dir" | grep '^ D ' | sed 's/^ *D //'
+}
+
+function change_filemode_for_svn
+{
+	local dir=${1:?"Error: argument"}
+
+	find $dir -type f | grep -v build | sed 's/\ /\\ /' | xargs -n 1 stat | grep rwx | cut -d ' ' -f 28 # 表示のみ
+	#find $dir -type f | grep -v build | sed 's/\ /\\ /' | xargs -n 1 stat | grep rwx | cut -d ' ' -f 28 | xargs chmod a+r
+	#find $dir -type f | grep -v build | sed 's/\ /\\ /' | xargs -n 1 stat | grep rwx | cut -d ' ' -f 28 | xargs chmod a-x
+}
+
+function find_source_files
+{
+	local dir=$1
+	find $dir -type f \( -name '*.c' -or -name '*.cpp' -or -name '*.m' -or -name '*.mm' -or -name '*.h' -or -name '*.hpp' -or -name '*.pch' -or -name '*.inl' \) | sed 's/^/"/' | sed 's/$/"/'
+}
+
+function print_source_files
+{
+	local dir=${1:-.}
+	find "$dir" -type f | grep -v '\.svn' | grep -E '.+\.(h|hpp|c|cc|cpp|cxx|m|mm|M|pch|inl)$' | sed 's/\ /\\\ /g'
+}
+
+function search_in_source_files
+{
+	local pattern=$1
+	local dir=${2:-.}
+	find "$dir" -type f \( -name '*.h' -or -name '*.hpp' -or -name '*.c' -or -name '*.cc' -or -name '*.cpp' -or -name '*.cxx' -or -name '*.m' -or -name '*.mm' -or -name '*.M' -or -name '*.pch' -or -name '*.inl' \) -print0 | xargs -0 grep -H -n -E "$pattern"
+	#print_source_files "$dir" | sed 's/^/"/' | sed 's/$/"/' | xargs -n 100 grep -H -n -E "$pattern"
+}
+
+function backup_project
+{
+	rsync -av --delete --exclude=".svn" --exclude="*.build" --exclude="Debug" --exclude="Release" --exclude=".DS_Store"
+}
+
+function convert_source_files_to_utf8
+{
+	print_source_files | xargs -n 100 nkf -w -Lu --overwrite
+}
+
+function make_etags
+{
+	print_source_files | grep -v '\.app' | grep -v '\.framework' | xargs etags
+}
+
+function exec_mac_vim
+{
+	local mac_vim="/Applications/MacVim.app/Contents/MacOS/Vim"
+	if [ -e "$mac_vim" ] 
+	then
+		$mac_vim $@
+	else
+		vi $@
+	fi
+}
+
+function make_master_update_message
+{
+	svn log -v -l1 | grep ^\ \  | sed 's;^\ *;;' | sed 's;^M\ *;変更\ :\ ;' | sed 's;^A\ *;追加\ :\ ;' | sed 's;/master/Smart/Mac/branch/V.*/tseMaster/;;'
+}
+
+function ss-open_xdcambrowser_release
+{
+	local app="build/Release/Content Browser.app"
+
+	if [[ ! -e "$app" ]]
+	then
+		local dir="$PWD"
+		cd "build/Release"
+		unzip "Content Browser.app.zip" >/dev/null
+		cd "$dir"
+	fi
+
+	open "$app"
+}
+
+function remove_win_files
+{
+	local dir=${1:-.}
+	find $dir -type f \( -name '*.dll' -or -name '*.lib' -or -name '*.pdb' -or -name '*.idb' -or -name '*.obj' -or -name '*.exe' -or -name '*.bat' -or -name '*.vcproj' -or -name '*.vcxproj' \) | sed 's;\ ;\\ ;' | xargs rm -R
+}

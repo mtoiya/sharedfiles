@@ -1,0 +1,2 @@
+command script import ~/Dropbox/Library/lldb/formatters/wchar.py
+type summary add -F wchar.wchar_SummaryProvider "wchar_t *" "const wchar_t *"

@@ -1,0 +1,7 @@
+if [ -f "${HOME}/.shenv" ]; then
+  source "${HOME}/.shenv"
+fi
+
+if [ -f "${HOME}/etc/shenv" ]; then
+  source "${HOME}/etc/shenv"
+fi

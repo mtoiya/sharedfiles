@@ -1,0 +1,5 @@
+"set guifont=Osaka-Mono:h12
+set guifont=Menlo:h12
+"set guifontwide=Osaka-Mono:h12
+set guifontwide=Menlo:h12
+"colorscheme whitedust "wombat256mod blackdust
