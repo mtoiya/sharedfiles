@@ -2,4 +2,5 @@
 set guifont=Menlo:h12
 "set guifontwide=Osaka-Mono:h12
 set guifontwide=Menlo:h12
-"colorscheme whitedust "wombat256mod blackdust
+colorscheme solarized "whitedust blackdust
+set background=dark
