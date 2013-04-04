@@ -4,6 +4,8 @@
 " .vim/bundle/plugin_nameを読み込むようにする
 call pathogen#incubate()
 
+call pathogen#helptags()
+
 
 
 
