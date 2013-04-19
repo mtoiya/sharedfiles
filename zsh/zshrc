@@ -67,3 +67,10 @@ esac
 # 2. それでマッチするものがなければ，小文字を大文字に変えつつ補完してみて
 # 3. それでもマッチするものがなければ，大文字を小文字に変えるルールを追加（`+'）して補完してみよ
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+
+# autojumpの設定
+[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+
+# zの設定
+[[ -s `brew --prefix`/etc/profile.d/z.sh ]] && . `brew --prefix`/etc/profile.d/z.sh
+

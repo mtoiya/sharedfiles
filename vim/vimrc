@@ -124,7 +124,7 @@ inoremap <silent> <C-k> <C-^><C-r>=IMState('FixMode')<CR>
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-set expandtab
+"set expandtab
 
 " ツールバーを非表示にする
 set guioptions-=T

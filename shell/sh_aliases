@@ -112,6 +112,7 @@ alias tp='tmux paste-buffer'
 alias tre=tree
 alias umt=umount
 alias v='vi'
+alias vr='vi -R'
 alias vv='vfamversion'
 alias wman='w3mman'
 alias x='xargs'
