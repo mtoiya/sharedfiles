@@ -31,3 +31,12 @@
 
 ;; helm-modeの設定
 (helm-mode 1)
+
+
+
+
+
+;; auto-completeの設定
+(require 'auto-complete)
+(require 'auto-complete-config)
+(global-auto-complete-mode t)
