@@ -1,44 +1,56 @@
-;; ツールバーを非表示にします。
-(custom-set-variables '(tool-bar-mode nil))
+;(load-file "~/sharedfiles/emacs/init-package.el")
+;(load-file "~/sharedfiles/emacs/init-helm.el")
+;(load-file "~/sharedfiles/emacs/init-auto-complete.el")
+;(load-file "~/sharedfiles/emacs/init-ffap.el")
+;(load-file "~/sharedfiles/emacs/init-other.el")
+;(load-file "~/sharedfiles/emacs/init-unix-only.el")
+;(load-file "~/sharedfiles/emacs/init-mac-only.el")
 
-;; タブ幅を設定します。
-(setq-default tab-width 4)
-(setq default-tab-width 4)
-(setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120))
+;;; テーマを設定する
+;(load-theme 'whiteboard t)
 
-;; サーバーモードをスタートします。
-(server-start)
+;;; 対応する括弧を表示させる
+;(show-paren-mode 1)
 
-;; Shellモードの時にzshを使います。
-(setq shell-file-name "/bin/zsh")
+;;; 現在行に色を付ける
+;(global-hl-line-mode t)
+;; 色
+;(set-face-background 'hl-line "Gray")
 
-;; プロキシサーバーの設定
-(setq url-using-proxy t)
-(setq url-proxy-services '(("http" . "192.168.10.2:8080")))
+;;; 履歴を次回Emacs起動時にも保存する
+;(savehist-mode 1)
 
-;; パッケージ取得先URLを追加します。
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;;; ログの記録行数を増やす
+;(setq message-log-max 10000)
 
+;;; 履歴をたくさん保存する
+;(setq history-length 1000)
 
+;;; モードラインに時刻を表示する
+;(display-time)
 
+;;; リージョンに色を付ける
+;(transient-mark-mode 1)
 
+;;; GCを減らして軽くする（デフォルトの10倍）
+;(setq gc-cons-threshold (* 10 gc-cons-threshold))
 
-;; helmの設定
+;;; ミニバッファを再帰的に呼び出せるようにする
+;(setq enable-recursive-minibuffers t)
 
-;; helm-miniのキー
-(global-set-key (kbd "C-c h") 'helm-mini)
+;;; ダイアログボックスを使わないようにする
+;(setq use-dialog-box nil)
+;(defalias 'message-box 'message)
 
-;; helm-modeの設定
-(helm-mode 1)
+;;; キーストロークをエコーエリアに早く表示する
+;(setq echo-keystrokes 0.1)
 
+;;; 大きいファイルを開こうとした時に警告を発生させる
+;;; デフォルトは10MBなので25MBに拡張する
+;(setq large-file-warning-threshold (* 25 1024 1024))
 
-
-
-
-;; auto-completeの設定
-(require 'auto-complete)
-(require 'auto-complete-config)
-(global-auto-complete-mode t)
+;;; ミニバッファで入力を取り消しても履歴に残す
+;;; 誤って取り消して入力が失われるのを防ぐため
+;(defadvice abort-recursive-edit (before minibuffer-save activate)
+;  (when (eq (selected-window) (active-minibuffer-window))
+;	(add-to-history minibuffer-history-variable (minibuffer-contents))))
