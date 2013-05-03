@@ -94,6 +94,20 @@
 
 
 
+;;;; migemo
+;(require 'migemo)
+;; cmigemoを使う
+;(setq migemo-command "cmigemo")
+;(setq migemo-options ' ("-q" "--emacs"))
+;; migemo-dictのパスを設定
+;(setq migemo-dictionary "/usr/local/share/migemo/euc-jp/migemo-dict")
+;(setq migemo-user-dictionary nil)
+;(setq migemo-regex-dictionary nil)
+
+
+
+
+
 ;;;; その他の設定
 
 ;;; タブ幅を設定します
