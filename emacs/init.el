@@ -1,10 +1,10 @@
 ;;;; package
 
 ;; パッケージ取得先URLを追加します。
-;(require 'package)
-;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;(package-initialize)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
 
 
@@ -13,10 +13,10 @@
 ;;;; helm
 
 ;; helm-miniのキー
-;(global-set-key (kbd "C-c h") 'helm-mini)
+(global-set-key (kbd "C-c h") 'helm-mini)
 
 ;; helm-modeの設定
-;(helm-mode 1)
+(helm-mode 1)
 
 
 
@@ -24,9 +24,9 @@
 
 ;;;; auto-complete
 
-;(require 'auto-complete)
-;(require 'auto-complete-config)
-;(global-auto-complete-mode t)
+(require 'auto-complete)
+(require 'auto-complete-config)
+(global-auto-complete-mode t)
 
 
 
@@ -34,7 +34,7 @@
 
 ;;;; ffap
 
-;(ffap-bindings)
+(ffap-bindings)
 
 
 
@@ -42,9 +42,9 @@
 
 ;;;; gtags
 
-;(require 'gtags)
-;(add-hook 'c-mode-common-hook 'gtags-mode)
-;(add-hook 'c++-mode-hook 'gtags-mode)
+(require 'gtags)
+(add-hook 'c-mode-common-hook 'gtags-mode)
+(add-hook 'c++-mode-hook 'gtags-mode)
 
 
 
@@ -53,7 +53,7 @@
 ;;;; Unix専用の設定
 
 ;; Shellモードの時にzshを使う。
-;(setq shell-file-name "/bin/zsh")
+(setq shell-file-name "/bin/zsh")
 
 
 
@@ -61,8 +61,8 @@
 
 ;;;; Mac特有の設定
 
-;(setq ns-command-modifier (quote meta))
-;(setq ns-alternate-modifier (quote super))
+(setq ns-command-modifier (quote meta))
+(setq ns-alternate-modifier (quote super))
 
 
 
@@ -70,15 +70,15 @@
 
 ;;;; org-remember
 
-;(require 'org)
-;(org-remember-insinuate)
+(require 'org)
+(org-remember-insinuate)
 ;; メモを格納するorgファイルの設定
-;(setq org-directory "~/Dropbox/Documents/")
-;(setq org-default-notes-file (expand-file-name "memo.org" org-directory))
+(setq org-directory "~/Dropbox/Documents/")
+(setq org-default-notes-file (expand-file-name "memo.org" org-directory))
 ;; テンプレートの設定
-;(setq org-remember-templates
-;      '(("Note" ?n "** %?\n   %T" nil "Inbox")
-;        ("Todo" ?t "** TODO %?\n   %T" nil "Inbox")))
+(setq org-remember-templates
+      '(("Note" ?n "** %?\n   %T" nil "Inbox")
+        ("Todo" ?t "** TODO %?\n   %T" nil "Inbox")))
 
 
 
@@ -86,10 +86,10 @@
 
 ;;;; auto-async-byte-compile
 
-;(require 'auto-async-byte-compile)
+(require 'auto-async-byte-compile)
 ;; 自動バイトコンパイルを無効にするファイル名の正規表現
-;(setq auto-async-byte-compile-exclude-files-regexp "/junk/")
-;(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+(setq auto-async-byte-compile-exclude-files-regexp "/junk/")
+(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
 
 
@@ -97,14 +97,14 @@
 
 ;;;; migemo
 
-;(require 'migemo)
+(require 'migemo)
 ;; cmigemoを使う
-;(setq migemo-command "cmigemo")
-;(setq migemo-options ' ("-q" "--emacs"))
+(setq migemo-command "cmigemo")
+(setq migemo-options ' ("-q" "--emacs"))
 ;; migemo-dictのパスを設定
-;(setq migemo-dictionary "/usr/local/share/migemo/euc-jp/migemo-dict")
-;(setq migemo-user-dictionary nil)
-;(setq migemo-regex-dictionary nil)
+(setq migemo-dictionary "/usr/local/share/migemo/euc-jp/migemo-dict")
+(setq migemo-user-dictionary nil)
+(setq migemo-regex-dictionary nil)
 
 
 
@@ -112,9 +112,9 @@
 
 ;;;; color-moccur
 
-;(require 'color-moccur)
+(require 'color-moccur)
 ;; スペースで区切られた複数の単語にマッチさせる
-;(setq moccur-split-word t)
+(setq moccur-split-word t)
 
 
 
@@ -123,7 +123,7 @@
 ;;;; ediff
 
 ;; Ediff Control Panel専用のフレームを作成しないようにする
-;(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
 
@@ -133,46 +133,46 @@
 
 ;;; タブ幅を設定します
 ;; デフォルトのタブ幅
-;(setq-default tab-width 4)
+(setq-default tab-width 4)
 ;; TABキー押下時にタブの代わりにスペースを挿入する
-;(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 ;; TABキー押下時にスペース２個を挿入する
-;(setq-default tab-stop-list (number-sequence 2 120 2))
+(setq-default tab-stop-list (number-sequence 2 120 2))
 ;; CやC++モードのデフォルトインデントレベル
-;(setq-default c-basic-offset 4)
+(setq-default c-basic-offset 4)
 ;; C/C++/Objective-C/Java等のタブ・インデント設定
-;(add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
+(add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
 
 ;;; 行番号・桁番号を表示する
-;(line-number-mode 1)
-;(column-number-mode 1)
+(line-number-mode 1)
+(column-number-mode 1)
 
 ;;; ツールバーとスクロールバーを消す
-;(tool-bar-mode -1)
-;(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;;; シェルに合わせるため、C-hは後退に割り当てる
 ;;; ヘルプは<f1>も使えるので
-;(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "C-h") 'delete-backward-char)
 
 ;;; yesと入力するのは面倒なのでyで十分
-;(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;;; ファイル内のカーソル位置を記憶する
-;(setq-default save-place t)
-;(require 'saveplace)
+(setq-default save-place t)
+(require 'saveplace)
 
 ;;; サーバーモードをスタートします
-;(server-start)
-
-;;; テーマを設定する
-;(load-theme 'whiteboard t)
+(server-start)
 
 ;;; 対応する括弧を表示させる
-;(show-paren-mode 1)
+(show-paren-mode 1)
 
 ;;; 正規表現置換のエイリアス
-;(defalias 'qrr 'query-replace-regexp)
+(defalias 'qrr 'query-replace-regexp)
+
+;;; テーマを設定する
+(load-theme 'whiteboard t)
 
 ;;; 現在行に色を付ける
 ;(global-hl-line-mode t)
