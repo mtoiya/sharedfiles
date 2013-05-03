@@ -85,6 +85,7 @@
 
 
 ;;;; auto-async-byte-compile
+
 ;(require 'auto-async-byte-compile)
 ;; 自動バイトコンパイルを無効にするファイル名の正規表現
 ;(setq auto-async-byte-compile-exclude-files-regexp "/junk/")
@@ -95,6 +96,7 @@
 
 
 ;;;; migemo
+
 ;(require 'migemo)
 ;; cmigemoを使う
 ;(setq migemo-command "cmigemo")
@@ -103,6 +105,25 @@
 ;(setq migemo-dictionary "/usr/local/share/migemo/euc-jp/migemo-dict")
 ;(setq migemo-user-dictionary nil)
 ;(setq migemo-regex-dictionary nil)
+
+
+
+
+
+;;;; color-moccur
+
+;(require 'color-moccur)
+;; スペースで区切られた複数の単語にマッチさせる
+;(setq moccur-split-word t)
+
+
+
+
+
+;;;; ediff
+
+;; Ediff Control Panel専用のフレームを作成しないようにする
+;(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
 
@@ -149,6 +170,9 @@
 
 ;;; 対応する括弧を表示させる
 ;(show-paren-mode 1)
+
+;;; 正規表現置換のエイリアス
+;(defalias 'qrr 'query-replace-regexp)
 
 ;;; 現在行に色を付ける
 ;(global-hl-line-mode t)
