@@ -50,6 +50,18 @@
 
 
 
+;;;; color-theme
+
+(require 'color-theme)
+;(eval-after-load "color-theme"
+;  '(progn
+;     (color-theme-initialize)
+;     (color-theme-hober)))     ; ここに好きなテーマを書く
+
+
+
+
+
 ;;;; Unix専用の設定
 
 ;; Shellモードの時にzshを使う。
@@ -99,7 +111,7 @@
 
 (require 'migemo)
 ;; cmigemoを使う
-(setq migemo-command "cmigemo")
+(setq migemo-command "~/bin/cmigemo")
 (setq migemo-options ' ("-q" "--emacs"))
 ;; migemo-dictのパスを設定
 (setq migemo-dictionary "/usr/local/share/migemo/euc-jp/migemo-dict")
@@ -124,6 +136,34 @@
 
 ;; Ediff Control Panel専用のフレームを作成しないようにする
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+
+
+
+
+;;;; MacのIME用設定（専用のパッチを当ててビルドしていないと機能しない）
+
+(mac-input-method-mode t)
+
+;;; カーソル色を変更する
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-color 'red)
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.Roman" 'cursor-color 'green)
+
+;; カーソルタイプを変更する
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-type 'box)
+
+;; タイトルを変更する
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'title "J")
+
+
+
+
+
+;;;; エイリアス
+
+(defalias 'qrr 'query-replace-regexp) ; 正規表現置換
+(defalias 'lf 'load-file)
+(defalias 'lt 'load-theme)
 
 
 
@@ -165,14 +205,14 @@
 ;;; サーバーモードをスタートします
 (server-start)
 
+;;; テーマを設定する
+;(load-theme 'whiteboard t)
+
 ;;; 対応する括弧を表示させる
 (show-paren-mode 1)
 
-;;; 正規表現置換のエイリアス
-(defalias 'qrr 'query-replace-regexp)
-
-;;; テーマを設定する
-(load-theme 'whiteboard t)
+;;; 他のウィンドウへ移動するコマンドの実行を楽にする
+(global-set-key (kbd "C-t") 'other-window)
 
 ;;; 現在行に色を付ける
 ;(global-hl-line-mode t)
