@@ -114,7 +114,7 @@
 (setq migemo-command "~/bin/cmigemo")
 (setq migemo-options ' ("-q" "--emacs"))
 ;; migemo-dictのパスを設定
-(setq migemo-dictionary "/usr/local/share/migemo/euc-jp/migemo-dict")
+(setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
 (setq migemo-user-dictionary nil)
 (setq migemo-regex-dictionary nil)
 
