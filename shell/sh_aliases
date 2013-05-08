@@ -167,3 +167,9 @@ if [[ -e "/Applications/TextMate.app/Contents/Resources/mate" ]]
 then
   alias mate=/Applications/TextMate.app/Contents/Resources/mate
 fi
+
+# Emacs
+if [[ -e "/Applications/Emacs.app" ]]
+then
+  alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
+fi
