@@ -257,3 +257,8 @@
 ;(defadvice abort-recursive-edit (before minibuffer-save activate)
 ;  (when (eq (selected-window) (active-minibuffer-window))
 ;	(add-to-history minibuffer-history-variable (minibuffer-contents))))
+
+;;; バックアップファイルを"/tmp"に作成する
+(setq backup-directory-alist
+      (cons (cons "\\.*$" (expand-file-name "/tmp"))
+            backup-directory-alist))
