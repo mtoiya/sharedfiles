@@ -62,6 +62,18 @@
 
 
 
+;;;; uniquify
+
+(require 'uniquify)
+;; filename<dir>形式のバッファ名にする
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+;; *で囲まれたバッファ名は対象外にする
+(setq uniquify0ignore-buffers-re "*[^*]+*")
+
+
+
+
+
 ;;;; Unix専用の設定
 
 ;; Shellモードの時にzshを使う。
