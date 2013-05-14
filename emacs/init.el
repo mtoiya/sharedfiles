@@ -14,6 +14,7 @@
 
 ;; helm-miniのキー
 (global-set-key (kbd "C-c h") 'helm-mini)
+(global-set-key (kbd "C-;") 'helm-mini)
 
 ;; helm-modeの設定
 (helm-mode 1)
@@ -53,10 +54,10 @@
 ;;;; color-theme
 
 (require 'color-theme)
-;(eval-after-load "color-theme"
-;  '(progn
-;     (color-theme-initialize)
-;     (color-theme-hober)))     ; ここに好きなテーマを書く
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-gnome2)))     ; ここに好きなテーマを書く
 
 
 
