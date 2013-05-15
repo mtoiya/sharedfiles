@@ -1,3 +1,12 @@
+;;;; Proxyサーバーの設定
+
+(setq url-using-proxy t)
+(setq url-proxy-services '(("http" . "192.168.10.2:8080")))
+
+
+
+
+
 ;;;; package
 
 ;; パッケージ取得先URLを追加します。
