@@ -205,6 +205,8 @@
 (defalias 'qrr 'query-replace-regexp) ; 正規表現置換
 (defalias 'lf 'load-file)
 (defalias 'lt 'load-theme)
+(defalias 'tff 'toggle-frame-fullscreen)
+(defalias 'tfm 'toggle-frame-maximized)
 
 
 
