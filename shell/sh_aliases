@@ -37,6 +37,7 @@ alias gl='git log'
 alias gl1='git log --oneline'
 alias gm='git merge'
 alias gn='git svn'
+alias gr='grep'
 alias gs='git status'
 alias gt='git tag'
 alias gba=getbootarch
