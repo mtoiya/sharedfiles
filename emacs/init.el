@@ -102,6 +102,15 @@
 
 
 
+;;;; shell-switcher
+
+(require 'shell-switcher)
+(setq shell-switcher-mode t)
+
+
+
+
+
 ;;;; Unix専用の設定
 
 ;; Shellモードの時にzshを使う。
