@@ -226,6 +226,7 @@
 (defalias 'lt 'load-theme)
 (defalias 'tff 'toggle-frame-fullscreen)
 (defalias 'tfm 'toggle-frame-maximized)
+(defalias 'ssn 'shell-switcher-new-shell)
 
 
 
