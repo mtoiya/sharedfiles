@@ -111,6 +111,16 @@
 
 
 
+;;;; viewer
+
+(require 'viewer)
+;; 特定のファイルをview-modeで開く
+(setq view-mode-by-default-regexp "\\.log$")
+
+
+
+
+
 ;;;; Unix専用の設定
 
 ;; Shellモードの時にzshを使う。
