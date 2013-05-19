@@ -1,7 +1,42 @@
+;;;; 各環境ごとの設定を書いたファイルのロード
+
+;; 以下の変数が定義されていることを前提としている
+;;   tse-p
+(when (file-exists-p "~/.emacs.d/my-config")
+  (load-file "~/.emacs.d/my-config"))
+
+
+
+
+
+;;;; 環境の判定に使う変数の定義
+
+(setq darwin-p  (eq system-type 'darwin)
+      ns-p      (eq window-system 'ns)
+      linux-p   (eq system-type 'gnu/linux)
+      cygwin-p  (eq system-type 'cygwin)
+      nt-p      (eq system-type 'windows-nt)
+      windows-p (or cygwin-p nt-p)
+      unix-p    (or darwin-p linux-p cygwin-p))
+
+
+
+
+
+;;;; exec-pathの設定
+
+(when darwin-p
+  (add-to-list 'exec-path "/usr/local/bin"))
+
+
+
+
+
 ;;;; Proxyサーバーの設定
 
-(setq url-using-proxy t)
-(setq url-proxy-services '(("http" . "192.168.10.2:8080")))
+(when tse-p
+  (setq url-using-proxy t)
+  (setq url-proxy-services '(("http" . "192.168.10.2:8080"))))
 
 
 
@@ -19,14 +54,35 @@
 
 
 
+;;;; auto-async-byte-compile
+
+;(require 'auto-async-byte-compile)
+;; 自動バイトコンパイルを無効にするファイル名の正規表現
+;(setq auto-async-byte-compile-exclude-files-regexp "/junk/")
+;(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+
+
+
+
+
+;;;; key-chord
+
+;(require 'key-chord)
+;(setq key-chord-two-keys-delay 0.04)
+;(key-chord-mode 1)
+
+
+
+
+
 ;;;; helm
 
 ;; helm-miniのキー
 (global-set-key (kbd "C-c h") 'helm-mini)
-(global-set-key (kbd "C-;") 'helm-mini)
+(global-set-key (kbd "C-t") 'helm-mini)
 
 ;; helm-modeの設定
-(helm-mode 1)
+;(helm-mode 1)
 
 
 
@@ -52,9 +108,9 @@
 
 ;;;; gtags
 
-(require 'gtags)
-(add-hook 'c-mode-common-hook 'gtags-mode)
-(add-hook 'c++-mode-hook 'gtags-mode)
+;(require 'gtags)
+;(add-hook 'c-mode-common-hook 'gtags-mode)
+;(add-hook 'c++-mode-hook 'gtags-mode)
 
 
 
@@ -62,11 +118,15 @@
 
 ;;;; color-theme
 
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-gnome2)))     ; ここに好きなテーマを書く
+(when (not (eq window-system nil))
+  (require 'color-theme)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       ;; この下に好きなテーマを書く
+       (color-theme-snowish)
+       ;(color-theme-sitaramv-solaris)
+       )))
 
 
 
@@ -78,7 +138,7 @@
 ;; filename<dir>形式のバッファ名にする
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 ;; *で囲まれたバッファ名は対象外にする
-(setq uniquify0ignore-buffers-re "*[^*]+*")
+(setq uniquify-ignore-buffers-re "*[^*]+*")
 
 
 
@@ -86,15 +146,20 @@
 
 ;;;; bm
 
-(setq-default bm-buffer-persistence nil)
-(setq bm-restore-repository-on-load t)
+;(setq bm-restore-repository-on-load t)
 (require 'bm)
+(setq-default bm-buffer-persistence t)
+(setq bm-repository-file "~/.emacs.d/.bm-repository")
+(add-hook' after-init-hook 'bm-repository-load)
 (add-hook 'find-file-hooks 'bm-buffer-restore)
 (add-hook 'kill-buffer-hook 'bm-buffer-save)
 (add-hook 'after-save-hook 'bm-buffer-save)
 (add-hook 'after-revert-hook 'bm-buffer-restore)
 (add-hook 'vc-before-checkin-hook 'bm-buffer-save)
-(global-set-key (kbd "M-SPC") 'bm-toggle)
+(add-hook 'kill-emacs-hook '(lambda nil
+                              (bm-buffer-save-all)
+                              (bm-repository-save)))
+(global-set-key (kbd "M-@") 'bm-toggle)
 (global-set-key (kbd "M-[") 'bm-previous)
 (global-set-key (kbd "M-]") 'bm-next)
 
@@ -114,26 +179,23 @@
 ;;;; viewer
 
 (require 'viewer)
+
 ;; 特定のファイルをview-modeで開く
-(setq view-mode-by-default-regexp "\\.log$")
+(setq view-mode-by-default-regexp "\.log$") ; 全ファイルを対象にする
 
+;; すべてのファイルをview-modeで開く
+;(viewer-aggressive-setup 'force) ; これが何故か効かない
 
+;; 書き込み不能ファイルでview-modeから抜けなくなる
+(viewer-stay-in-setup)
 
+;; view-modeの時にモードラインに色を付ける
+;(setq viewer-modeline-color-unwritable "tomato"
+;      viewer-modeline-color-view "orange")
+;(viewer-change-modeline-color-setup)
 
-
-;;;; Unix専用の設定
-
-;; Shellモードの時にzshを使う。
-(setq shell-file-name "/bin/zsh")
-
-
-
-
-
-;;;; Mac特有の設定
-
-(setq ns-command-modifier (quote meta))
-(setq ns-alternate-modifier (quote super))
+;; こうしないとview-modeを切り替えた時にモードラインの色が変わらなかった。
+;(add-hook 'view-mode-hook 'viewer-change-modeline-color)
 
 
 
@@ -142,10 +204,18 @@
 ;;;; org-remember
 
 (require 'org)
+(require 'org-remember)
+
 (org-remember-insinuate)
+
 ;; メモを格納するorgファイルの設定
-(setq org-directory "~/Dropbox/Documents/")
+(if darwin-p
+    (setq org-directory "~/Dropbox/Documents/")
+  (when nt-p
+    (setq org-directory "~/../../Dropbox/Documents/")))
+
 (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
+
 ;; テンプレートの設定
 (setq org-remember-templates
       '(("Note" ?n "** %?\n   %T" nil "Inbox")
@@ -155,28 +225,31 @@
 
 
 
-;;;; auto-async-byte-compile
-
-(require 'auto-async-byte-compile)
-;; 自動バイトコンパイルを無効にするファイル名の正規表現
-(setq auto-async-byte-compile-exclude-files-regexp "/junk/")
-(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
-
-
-
-
-
 ;;;; migemo
 
 (require 'migemo)
+
 ;; cmigemoを使う
-(setq migemo-command "~/bin/cmigemo")
+(if unix-p
+    (setq migemo-command "~/bin/cmigemo")
+  (when nt-p
+    (setq migemo-command "")))
+
 (setq migemo-options ' ("-q" "--emacs"))
+
 ;; migemo-dictのパスを設定
-(setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+(if darwin-p
+    (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+  (when nt-p
+    (setq migemo-dictionary "")))
+
 (setq migemo-user-dictionary nil)
 (setq migemo-regex-dictionary nil)
-(setq migemo-coding-system 'utf-8)
+
+(if unix-p
+    (setq migemo-coding-system 'utf-8)
+  (when nt-p
+    (setq migemo-coding-system 'utf-8)))
 
 
 
@@ -194,6 +267,8 @@
 
 ;;;; ediff
 
+(require 'ediff)
+
 ;; Ediff Control Panel専用のフレームを作成しないようにする
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
@@ -201,38 +276,64 @@
 
 
 
-;;;; MacのIME用設定（専用のパッチを当ててビルドしていないと機能しない）
+;;;; view
 
-(mac-input-method-mode t)
+(require 'view)
 
-;;; カーソル色を変更する
-;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-color 'red)
-;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.Roman" 'cursor-color 'green)
+;; less感覚の操作
+(define-key view-mode-map (kbd "N") 'View-search-last-regexp-backward)
+(define-key view-mode-map (kbd "?") 'View-search-regexp-backward)
+(define-key view-mode-map (kbd "G") 'View-goto-line-last)
+(define-key view-mode-map (kbd "b") 'View-scroll-page-backward)
+(define-key view-mode-map (kbd "f") 'View-scroll-page-forward)
 
-;; カーソルタイプを変更する
-;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-type 'box)
+;; vi/w3m感覚の操作
+(define-key view-mode-map (kbd "h") 'backward-char)
+(define-key view-mode-map (kbd "j") 'next-line)
+(define-key view-mode-map (kbd "k") 'previous-line)
+(define-key view-mode-map (kbd "l") 'forward-char)
+(define-key view-mode-map (kbd "J") 'View-scroll-line-forward)
+(define-key view-mode-map (kbd "K") 'View-scroll-line-backward)
 
-;; タイトルを変更する
-;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'title "J")
+;; bm.elの設定
+(require 'bm)
+(define-key view-mode-map (kbd "m") 'bm-toggle)
+(define-key view-mode-map (kbd "[") 'bm-previous)
+(define-key view-mode-map (kbd "]") 'bm-next)
 
 
 
 
 
-;;;; エイリアス
+;;;; 関数
 
-(defalias 'qrr 'query-replace-regexp) ; 正規表現置換
-(defalias 'lf 'load-file)
-(defalias 'lt 'load-theme)
-(defalias 'tff 'toggle-frame-fullscreen)
-(defalias 'tfm 'toggle-frame-maximized)
-(defalias 'ssn 'shell-switcher-new-shell)
+(defun kill-ring-save-whole-line (&optional arg)
+  "Save current line as if killed."
+  (interactive "p")
+  (setq line-number (line-number-at-pos))
+  (kill-whole-line arg)
+  (yank)
+  (goto-line line-number))
 
 
 
 
 
 ;;;; その他の設定
+
+;; エイリアス
+(defalias 'qrr 'query-replace-regexp) ; 正規表現置換
+(defalias 'lf 'load-file)
+(defalias 'lt 'load-theme)
+(defalias 'tff 'toggle-frame-fullscreen)
+(defalias 'tfm 'toggle-frame-maximized)
+(defalias 'ssn 'shell-switcher-new-shell)
+(defalias 'plp 'package-list-packages)
+(defalias 'plpn 'package-list-packages-no-fetch)
+(defalias 'bcf 'byte-compile-file)
+
+;; kill-ring-save-whole-lineのキー割り当て
+(global-set-key (kbd "M-W") 'kill-ring-save-whole-line)
 
 ;;; タブ幅を設定します
 ;; デフォルトのタブ幅
@@ -265,43 +366,76 @@
 (setq-default save-place t)
 (require 'saveplace)
 
+;;; Shellモードの時にzshを使う。
+(when unix-p
+  (setq shell-file-name "/bin/zsh"))
+
+;;; Macのメタキーの設定
+(when ns-p
+  (setq ns-command-modifier (quote meta))
+  (setq ns-alternate-modifier (quote super)))
+
 ;;; サーバーモードをスタートします
 (server-start)
 
-;;; テーマを設定する
-;(load-theme 'whiteboard t)
+;; emacsclientから開いたバッファを閉じる機能を「C-x C-c」に割り当てる。
+(global-set-key (kbd "C-x C-c") 'server-edit)
+;; 逆にEmacsの終了方法を変更する。
+(defalias 'quit 'save-buffers-kill-emacs)
 
 ;;; 対応する括弧を表示させる
 (show-paren-mode 1)
 
 ;;; 他のウィンドウへ移動するコマンドの実行を楽にする
-(global-set-key (kbd "C-t") 'other-window)
+(global-set-key (kbd "C-l") 'other-window)
+
+;;; view-modeの切り替えを楽にする
+(global-set-key (kbd "C-j") 'view-mode)
+;; jk同時押しでview-mode切り替え
+;(key-chord-define-global "jk" 'view-mode)
+
+;;; 直前のバッファに移動する
+(global-set-key (kbd "C-^") '(lambda () (interactive) (switch-to-buffer nil)))
 
 ;;; フォント設定（http://sakito.jp/emacs/emacs23.htmlから）
-(when (>= emacs-major-version 23)
- (set-face-attribute 'default nil
-                     :family "monaco"
-                     :height 120)
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'japanese-jisx0208
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'japanese-jisx0212
-  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
- (set-fontset-font
-  (frame-parameter nil 'font)
-  'mule-unicode-0100-24ff
-  '("monaco" . "iso10646-1"))
- (setq face-font-rescale-alist
-      '(("^-apple-hiragino.*" . 1.2)
-        (".*osaka-bold.*" . 1.2)
-        (".*osaka-medium.*" . 1.2)
-        (".*courier-bold-.*-mac-roman" . 1.0)
-        (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-        (".*monaco-bold-.*-mac-roman" . 0.9)
-        ("-cdac$" . 1.3))))
+(when ns-p
+  (when (>= emacs-major-version 23)
+    (set-face-attribute 'default nil
+                        :family "monaco"
+                        :height 120)
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'japanese-jisx0208
+     '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'japanese-jisx0212
+     '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'mule-unicode-0100-24ff
+     '("monaco" . "iso10646-1"))
+    (setq face-font-rescale-alist
+          '(("^-apple-hiragino.*" . 1.2)
+            (".*osaka-bold.*" . 1.2)
+            (".*osaka-medium.*" . 1.2)
+            (".*courier-bold-.*-mac-roman" . 1.0)
+            (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+            (".*monaco-bold-.*-mac-roman" . 0.9)
+            ("-cdac$" . 1.3)))))
+
+;;; バックアップファイルを作成する場所
+(if unix-p
+    (setq backup-directory-alist
+          (cons (cons "\\.*$" (expand-file-name "~/tmp"))
+                backup-directory-alist))
+  (when nt-p
+    (setq backup-directory-alist
+          (cons (cons "\\.*$" (expand-file-name ""))
+                backup-directory-alist))))
+
+;;; 起動時に最大化する
+(toggle-frame-maximized)
 
 ;;; 現在行に色を付ける
 ;(global-hl-line-mode t)
@@ -346,7 +480,12 @@
 ;  (when (eq (selected-window) (active-minibuffer-window))
 ;	(add-to-history minibuffer-history-variable (minibuffer-contents))))
 
-;;; バックアップファイルを"/tmp"に作成する
-(setq backup-directory-alist
-      (cons (cons "\\.*$" (expand-file-name "/tmp"))
-            backup-directory-alist))
+;;; MacのIME用設定（専用のパッチを当ててビルドしていないと機能しない）
+;(mac-input-method-mode t)
+;;; カーソル色を変更する
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-color 'red)
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.Roman" 'cursor-color 'green)
+;; カーソルタイプを変更する
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-type 'box)
+;; タイトルを変更する
+;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'title "J")
