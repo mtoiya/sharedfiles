@@ -310,10 +310,11 @@
 (defun kill-ring-save-whole-line (&optional arg)
   "Save current line as if killed."
   (interactive "p")
-  (setq line-number (line-number-at-pos))
-  (kill-whole-line arg)
-  (yank)
-  (goto-line line-number))
+  (let (linenum (line-number-at-pos))
+    (kill-whole-line arg)
+    (yank)
+    ;(goto-line linenum)
+    ))
 
 
 
@@ -435,7 +436,7 @@
                 backup-directory-alist))))
 
 ;;; 起動時に最大化する
-(toggle-frame-maximized)
+;(toggle-frame-maximized) ; <M-f10>で可能なので起動時自動実行しなくても良さそう
 
 ;;; 現在行に色を付ける
 ;(global-hl-line-mode t)
