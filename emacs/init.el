@@ -233,7 +233,7 @@
 (if unix-p
     (setq migemo-command "~/bin/cmigemo")
   (when nt-p
-    (setq migemo-command "")))
+    (setq migemo-command "C:/Applications/cmigemo-default-win64/cmigemo")))
 
 (setq migemo-options ' ("-q" "--emacs"))
 
@@ -241,7 +241,7 @@
 (if darwin-p
     (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
   (when nt-p
-    (setq migemo-dictionary "")))
+    (setq migemo-dictionary "C:/Applications/cmigemo-default-win64/dict/cp932/migemo-dict")))
 
 (setq migemo-user-dictionary nil)
 (setq migemo-regex-dictionary nil)
@@ -249,7 +249,7 @@
 (if unix-p
     (setq migemo-coding-system 'utf-8)
   (when nt-p
-    (setq migemo-coding-system 'utf-8)))
+    (setq migemo-coding-system 'cp932)))
 
 
 
@@ -432,8 +432,13 @@
                 backup-directory-alist))
   (when nt-p
     (setq backup-directory-alist
-          (cons (cons "\\.*$" (expand-file-name ""))
+          (cons (cons "\\.*$" (expand-file-name "C:/Users/toiya/AppData/Roaming/.emacs.d/backup"))
                 backup-directory-alist))))
+
+;; Alt+`で英語／日本語を切り替えた時に出るエラーメッセージを無視する設定。
+(when nt-p
+  (global-set-key [M-kanji] 'ignore)
+  (global-set-key [kanji] 'ignore))
 
 ;;; 起動時に最大化する
 ;(toggle-frame-maximized) ; <M-f10>で可能なので起動時自動実行しなくても良さそう
