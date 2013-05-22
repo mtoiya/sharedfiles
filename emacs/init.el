@@ -265,6 +265,14 @@
 
 
 
+;;;;  recentf-ext
+
+(require 'recentf-ext)
+
+
+
+
+
 ;;;; ediff
 
 (require 'ediff)
@@ -366,6 +374,12 @@
 ;;; ファイル内のカーソル位置を記憶する
 (setq-default save-place t)
 (require 'saveplace)
+
+;; 最近のファイル1000個を保存する
+(setq recentf-max-saved-items 1000)
+
+;; 最近使ったファイルに加えないファイルを正規表現で指定する
+;(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 
 ;;; Shellモードの時にzshを使う。
 (when unix-p
