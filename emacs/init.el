@@ -340,6 +340,7 @@
 (defalias 'plp 'package-list-packages)
 (defalias 'plpn 'package-list-packages-no-fetch)
 (defalias 'bcf 'byte-compile-file)
+(defalias 'rb 'revert-buffer)
 
 ;; kill-ring-save-whole-lineのキー割り当て
 (global-set-key (kbd "M-W") 'kill-ring-save-whole-line)
