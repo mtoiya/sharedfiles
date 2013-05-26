@@ -2,10 +2,10 @@ export LANG=ja_JP.UTF-8
 
 # EDITORの設定
 EDITOR='emacsclient'
-macvim=/Applications/MacVim.app/Contents/MacOS/Vim
-if [[ -e "$macvim" ]]
-then
-	#EDITOR=$macvim
-fi
+#macvim=/Applications/MacVim.app/Contents/MacOS/Vim
+#if [[ -e "$macvim" ]]
+#then
+#	EDITOR=$macvim
+#fi
 export EDITOR
 export ALTERNATE_EDITOR=/usr/bin/vi
