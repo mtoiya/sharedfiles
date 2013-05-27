@@ -212,7 +212,7 @@
 (if darwin-p
     (setq org-directory "~/Dropbox/Documents/")
   (when nt-p
-    (setq org-directory "~/../../Dropbox/Documents/")))
+    (setq org-directory "~/Dropbox/Documents/"))) ; HOME環境変数が設定されていることが前提
 
 (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
 
@@ -446,7 +446,7 @@
                 backup-directory-alist))
   (when nt-p
     (setq backup-directory-alist
-          (cons (cons "\\.*$" (expand-file-name "C:/Users/toiya/AppData/Roaming/.emacs.d/backup"))
+          (cons (cons "\\.*$" (expand-file-name "~/.emacs.d/backup"))
                 backup-directory-alist))))
 
 ;; Alt+`で英語／日本語を切り替えた時に出るエラーメッセージを無視する設定。
