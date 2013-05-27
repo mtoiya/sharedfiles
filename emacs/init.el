@@ -78,7 +78,7 @@
 ;;;; helm
 
 ;; helm-miniのキー
-(global-set-key (kbd "C-c h") 'helm-mini)
+(global-set-key (kbd "C-c h") 'helm-for-files)
 (global-set-key (kbd "C-t") 'helm-mini)
 
 ;; helm-modeの設定
