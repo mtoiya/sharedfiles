@@ -367,6 +367,9 @@
 ;; C/C++/Objective-C/Java等のタブ・インデント設定
 (add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
 
+;; インデントスタイル
+(setq c-default-style "stroustrup")
+
 ;;; 行番号・桁番号を表示する
 (line-number-mode 1)
 (column-number-mode 1)
