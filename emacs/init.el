@@ -395,6 +395,12 @@
 ;; 最近使ったファイルに加えないファイルを正規表現で指定する
 ;(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
 
+;; 起動時に*GNU Emacs*バッファを表示しないようにする
+(setq inhibit-startup-message t)
+
+;; scratchバッファの空にします
+(setq initial-scratch-message "")
+
 ;;; Shellモードの時にzshを使う。
 (when unix-p
   (setq shell-file-name "/bin/zsh"))
