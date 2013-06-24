@@ -9,3 +9,9 @@ EDITOR='emacsclient'
 #fi
 export EDITOR
 export ALTERNATE_EDITOR=/usr/bin/vi
+
+# byobuの設定
+if [[ -s `which brew` ]]
+then
+  export BYOBU_PREFIX=$(brew --prefix)
+fi
