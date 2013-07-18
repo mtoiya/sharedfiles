@@ -38,6 +38,9 @@ setopt extended_history
 # 履歴の重複を無くす
 setopt hist_ignore_all_dups
 
+# 余分なスペースを削除してヒストリに記録する
+setopt hist_reduce_blanks
+
 # 履歴を共有する
 setopt share_history
 
