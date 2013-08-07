@@ -104,6 +104,7 @@ alias sba=setbootarch
 alias sd='svn diff'
 alias setbootarch='sudo systemsetup -setkernelbootarchitecture'
 alias sl='svn log -l5'
+alias sl1='svn log -l1'
 alias sl2='svn log -l2'
 alias sl3='svn log -l3'
 alias sl4='svn log -l4'
