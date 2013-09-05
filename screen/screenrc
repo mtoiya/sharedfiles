@@ -1,5 +1,5 @@
 # 起動キーの変更
-escape ^t^t
+escape ^q^q
 
 # 起動時のメッセージを抑制
 startup_message off
