@@ -1,30 +1,41 @@
-alias a='open -a'
-alias b='brew'
+# 実行環境のタイプを識別するのに使用する変数
+UNAME=`uname`
+
+
+
+[[ -s `which apt-cache` ]] && alias a='apt-cache'
+
 alias backup='rsync -av --delete'
-alias backup_project='rsync -av --delete --exclude=".svn" --exclude=".bzr" --exclude="*.build" --exclude="Debug" --exclude="Release" --exclude=".DS_Store"'
-alias bh='brew home'
-alias bi='brew info'
-alias bl='brew list'
-alias bo='brew outdated'
-alias bs='brew search'
-alias bx='backup_xcode_project'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias b='brew'
+  alias bh='brew home'
+  alias bi='brew info'
+  alias bl='brew list'
+  alias bo='brew outdated'
+  alias bs='brew search'
+fi
+
 alias c='cat'
-alias ctags='/Applications/MacVim.app/Contents/MacOS/ctags'
 alias d='dirs -v'
 alias df='df -h'
-alias dke='disk_action eject'
-alias dkl='diskutil list'
-alias dkm='disk_action mount'
-alias dkmd='disk_action mountDisk'
-alias dkn='rename_disk'
-alias dkr='remount_disk'
-alias dku='disk_action unmount'
-alias dkud='disk_action unmountDisk'
-alias doxygen='/Applications/Doxygen.app/Contents/Resources/doxygen'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias dke='disk_action eject'
+  alias dkl='diskutil list'
+  alias dkm='disk_action mount'
+  alias dkmd='disk_action mountDisk'
+  alias dkn='rename_disk'
+  alias dkr='remount_disk'
+  alias dku='disk_action unmount'
+  alias dkud='disk_action unmountDisk'
+fi
+
 alias du='du -h'
 alias dun='du / > /dev/null'
 alias e='emacsclient -n'
-alias efi='print_firmware_abi'
 alias f='find'
 alias g='git'
 alias ga='git add'
@@ -40,10 +51,13 @@ alias gn='git svn'
 alias gr='grep'
 alias gs='git status'
 alias gt='git tag'
-alias gba=getbootarch
-alias getbootarch='systemsetup -getkernelbootarchitecturesetting'
-alias gvi='gvim'
-alias gvim='mvim --remote-tab-wait-silent'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias gba=getbootarch
+  alias getbootarch='systemsetup -getkernelbootarchitecturesetting'
+fi
+
 alias h='history'
 alias ht='htop'
 alias j='pushd'
@@ -64,8 +78,16 @@ alias la='ls -lA'
 alias ln2hot='symlink_to_hotdir'
 alias lr='ls -lR'
 alias lra='ls -lRA'
-alias ls='ls -Gh'
-alias lsa='ls -GhA'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias ls='ls -Gh'
+elif [[ "$UNAME" == "Linux" ]]
+then
+  alias ls='ls -h --color'
+fi
+
+alias lsa='ls -A'
 alias lt='tree'
 alias lt1='tree -L 1'
 alias lt2='tree -L 2'
@@ -81,38 +103,60 @@ alias L='ls -Ll'
 alias Ls='ls -L'
 alias La='ls -LlA'
 alias m='less'
-alias mdf='mdfind -onlyin .'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias mdf='mdfind -onlyin .'
+fi
+
 alias mecp='secure_copy_to_ssh_client'
 alias mk='make'
 alias mkn='make -n'
 alias mksh='make_shell_script'
 alias mt=mount
 alias n='nkf'
-alias ne='notify_error $?'
 alias nj='ninja'
-alias o='open'
-alias of='openfile'
-alias p4setenv='source ${HOME}/svn/misc/settings/p4/ExportEnvVarsForP4'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias o='open'
+fi
+
 alias p='pwd'
 alias pp='pwd -P'
-alias print_firmware_abi='ioreg -l -p IODeviceTree | grep firmware-abi | grep -o -E "EFI[0-9]{2,2}"'
-alias ps='ps -U$USERNAME'
-alias psf='print_source_files'
-alias pt='port'
-alias pti='port info'
-alias ptl='port installed'
-alias pto='port outdated'
-alias pts='port search'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias print_firmware_abi='ioreg -l -p IODeviceTree | grep firmware-abi | grep -o -E "EFI[0-9]{2,2}"'
+fi
+
+if [[ "$UNAME" == "Darwin" || "$UNAME" == "Linux" ]]
+then
+  alias ps='ps -U$USERNAME'
+fi
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias pt='port'
+  alias pti='port info'
+  alias ptl='port installed'
+  alias pto='port outdated'
+  alias pts='port search'
+fi
+
 alias q='exit'
-alias r='rake'
 alias realias="${EDITOR} ~/.sh_aliases ; source ~/.sh_aliases"
 alias refunction="${EDITOR} ~/.sh_functions ; source ~/.sh_functions"
 alias rr='rm -R'
 alias rrf='rm -Rf'
 alias s='svn'
-alias sba=setbootarch
 alias sd='svn diff'
-alias setbootarch='sudo systemsetup -setkernelbootarchitecture'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias setbootarch='sudo systemsetup -setkernelbootarchitecture'
+fi
+
 alias si='svn info'
 alias sl='svn log -l5'
 alias sl1='svn log -l1'
@@ -130,74 +174,34 @@ alias sl30='svn log -l30'
 alias sl40='svn log -l40'
 alias sl50='svn log -l50'
 alias ss='svn status'
-alias sss='svn status | grep -v \.xcuserdata$'
 alias st='stat'
 alias stx='stat -x'
-alias sync4backup='rsync -av --delete'
 alias t='top'
-alias tc='tmux copy-mode'
-alias tp='tmux paste-buffer'
-alias tre=tree
 alias umt=umount
-alias v='vi'
 alias vr='vi -R'
-alias vv='vfamversion'
-alias wman='w3mman'
 alias x='xargs'
-alias xa='xattr'
-alias xb='xcodebuild'
-alias x32='xcodebuild -arch i386'
-alias x64='xcodebuild -arch x86_64'
-alias xc='xcodebuild clean'
-alias xd32='xcodebuild -configuration Debug -arch i386'
-alias xd64='xcodebuild -configuration Debug -arch x86_64'
-alias xd='xd64'
-alias xdc='xd clean'
-alias xl='xcodebuild -list'
-alias xr32='xcodebuild -configuration Release -arch i386'
-alias xr64='xcodebuild -configuration Release -arch x86_64'
-alias xr='xr64'
-alias xrc='xr clean'
-alias xcode_rebuild_debug='xdc > /dev/null && xd > .build-d.log'
-alias xcode_rebuild_release='xrc > /dev/null && xr > .build-r.log'
-alias xcode_rebuild_all='xcode_rebuild_release && xcode_rebuild_debug'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias xa='xattr'
+  alias xb='xcodebuild'
+  alias xc='xcodebuild clean'
+  alias xl='xcodebuild -list'
+fi
+
 #alias z='zip -y -r'
 alias uz='unzip'
 alias 2unix='nkf -w -Lu --overwrite'
 alias 2win='nkf -s -Lw --overwrite'
 alias 2smart='nkf -w -Lw --overwrite'
-
-alias 1='lipo -info'
-alias 2='du -d1'
 alias 7='7z a -tzip'
-#alias hl='hg log' ; alias hs='hg st' ; alias hd='hg diff' ; alias hi='hg commit' ; alias hm='hg bookmark' ; alias ha='hg add' ; alias hb='hg branch' ; alias hbs='hg branches' ; alias hh='hg help' ; alias hu='hg update'
 
-alias 0a='open -a Activity\ Monitor'
-alias 0d='open -a Dictionary'
-alias 0e='open -a Emacs'
-alias 0etags='print_source_files | grep -v '\.app' | grep -v '\.framework' | xargs etags'
-alias 0g='open -a "Google Chrome"'
-alias 0m='open -a Mail'
-alias 0s='open -a Safari'
+# パッケージ管理系コマンド
+alias 0i='apt-cache show'
+alias 0s='apt-cache search'
 
 # for Smart
-alias s-killall-agents='killall FlamingoMCConverter FlamingoMCBurner FlamingoQTConverter'
-
-# MacVim
-macvim=/Applications/MacVim.app/Contents/MacOS/Vim
-if [[ -e "$macvim" ]]
+if [[ "$UNAME" == "Darwin" ]]
 then
-  alias v="$macvim"
-fi
-
-# TextMate
-if [[ -e "/Applications/TextMate.app/Contents/Resources/mate" ]]
-then
-  alias mate=/Applications/TextMate.app/Contents/Resources/mate
-fi
-
-# Emacs
-if [[ -e "/Applications/Emacs.app" ]]
-then
-  alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
+  alias s-killall-agents='killall FlamingoMCConverter FlamingoMCBurner FlamingoQTConverter'
 fi
