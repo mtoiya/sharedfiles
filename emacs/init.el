@@ -323,6 +323,15 @@
 
 
 
+;;;; markdown
+
+(when nt-p
+  (setq markdown-command "kramdown"))
+
+
+
+
+
 ;;;; 関数
 
 (defun kill-ring-save-whole-line (&optional arg)
