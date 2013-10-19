@@ -471,6 +471,9 @@
   (global-set-key [M-kanji] 'ignore)
   (global-set-key [kanji] 'ignore))
 
+;; revert-buffer時、バッファが編集中でない場合は確認しない（すべてのファイルを対象としている）。
+(setq revert-without-query (list ".*"))
+
 ;;; 起動時に最大化する
 ;(toggle-frame-maximized) ; <M-f10>で可能なので起動時自動実行しなくても良さそう
 
