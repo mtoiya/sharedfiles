@@ -349,18 +349,6 @@
 
 ;;;; その他の設定
 
-;; エイリアス
-(defalias 'qrr 'query-replace-regexp) ; 正規表現置換
-(defalias 'lf 'load-file)
-(defalias 'lt 'load-theme)
-(defalias 'tff 'toggle-frame-fullscreen)
-(defalias 'tfm 'toggle-frame-maximized)
-(defalias 'ssn 'shell-switcher-new-shell)
-(defalias 'plp 'package-list-packages)
-(defalias 'plpn 'package-list-packages-no-fetch)
-(defalias 'bcf 'byte-compile-file)
-(defalias 'rb 'revert-buffer)
-
 ;; kill-ring-save-whole-lineのキー割り当て
 (global-set-key (kbd "M-W") 'kill-ring-save-whole-line)
 
@@ -538,3 +526,11 @@
 ;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-type 'box)
 ;; タイトルを変更する
 ;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'title "J")
+
+
+
+
+
+;;;; 他のLispファイルをロード
+
+(load "~/.emacs.d/aliases")
