@@ -1,0 +1,15 @@
+#name : ... func(arg1, arg2) { ... }
+#key : f2,
+# --
+/**
+ * @brief 
+ * @param ${3:$(yas-substr yas-text "[^: ]*")} [in] 
+ * @param ${5:$(yas-substr yas-text "[^: ]*")} [in] 
+ */
+${6:void} ${1:FuncName}(
+	${2:int} ${3:arg1},
+	${4:int} ${5:arg2}
+	)
+{
+	$0
+}

@@ -1,0 +1,4 @@
+#name : static const type name = XXX;
+#key : scv,
+# --
+static const ${1:int} ${2:name} = ${3:0};

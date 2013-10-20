@@ -332,6 +332,15 @@
 
 
 
+;;;; yasnippet
+
+(require 'yasnippet)
+(yas-global-mode 1)
+
+
+
+
+
 ;;;; 関数
 
 (defun kill-ring-save-whole-line (&optional arg)

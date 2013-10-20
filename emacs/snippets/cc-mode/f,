@@ -1,0 +1,10 @@
+#name : ... func() { ... }
+#key : f,
+# --
+/**
+ * @brief 
+ */
+${2:void} ${1:FuncName}()
+{
+	$0
+}

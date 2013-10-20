@@ -1,0 +1,4 @@
+#name : const type name = XXX;
+#key : cv,
+# --
+const ${1:int} ${2:name} = ${3:0};
