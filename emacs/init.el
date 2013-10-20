@@ -336,11 +336,21 @@
 
 (require 'yasnippet)
 
-;; 
+;; スニペット置き場を追加する。
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/my-snippets")
 
-;; 
 (yas-global-mode 1)
+
+
+
+
+
+;;;; elscreen
+
+(require 'elscreen)
+
+;; プレフィックスキーの設定
+(elscreen-set-prefix-key "\C-q")
 
 
 
