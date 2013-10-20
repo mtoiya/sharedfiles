@@ -335,6 +335,11 @@
 ;;;; yasnippet
 
 (require 'yasnippet)
+
+;; 
+(add-to-list 'yas-snippet-dirs "~/.emacs.d/my-snippets")
+
+;; 
 (yas-global-mode 1)
 
 
