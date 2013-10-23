@@ -94,6 +94,11 @@
 (require 'auto-complete-config)
 (global-auto-complete-mode t)
 
+;; 自動で候補を表示しないようにする
+(setq ac-auto-start nil)
+;; その代わりTAB（C-i）キーで候補を出せるようにする
+(ac-set-trigger-key "TAB")
+
 
 
 
