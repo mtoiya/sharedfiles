@@ -35,7 +35,7 @@ fi
 
 alias du='du -h'
 alias dun='du / > /dev/null'
-alias e='emacsclient -n'
+alias e='emacsclient -nw'
 alias f='find'
 alias g='git'
 alias ga='git add'
@@ -178,6 +178,16 @@ alias st='stat'
 alias stx='stat -x'
 alias t='top'
 alias umt=umount
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  macvim="/Applications/MacVim.app/Contents/MacOS/Vim"
+  if [[ -e "$macvim" ]]
+  then
+    alias vi="$macvim"
+  fi
+fi
+
 alias vr='vi -R'
 alias x='xargs'
 

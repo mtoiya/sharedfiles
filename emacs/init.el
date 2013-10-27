@@ -352,10 +352,10 @@
 
 ;;;; elscreen
 
-(require 'elscreen)
+;(require 'elscreen)
 
 ;; プレフィックスキーの設定
-(elscreen-set-prefix-key "\C-q")
+;(elscreen-set-prefix-key "\C-q")
 
 
 
