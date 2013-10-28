@@ -240,6 +240,9 @@
 
 ;;;; migemo
 
+;; CygwinではMigemoを使わないようにします（Migemoを使う方法が確立していないので）
+(when (not cygwin-p)
+
 (require 'migemo)
 
 ;; cmigemoを使う
@@ -264,6 +267,7 @@
   (when nt-p
     (setq migemo-coding-system 'cp932)))
 
+) ; End of "when not cygwin-p"
 
 
 
@@ -410,7 +414,8 @@
 
 ;;; ツールバーとスクロールバーを消す
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
+(when (not cygwin-p)
+  (scroll-bar-mode -1))
 
 ;;; シェルに合わせるため、C-hは後退に割り当てる
 ;;; ヘルプは<f1>も使えるので
