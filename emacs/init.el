@@ -9,6 +9,14 @@
 
 
 
+;;;; エイリアスををロード（本ファイルのロード失敗時にエイリアスが使えなくならないように、早めにロードしておきます）
+
+(load "~/.emacs.d/aliases")
+
+
+
+
+
 ;;;; 環境の判定に使う変数の定義
 
 (setq darwin-p  (eq system-type 'darwin)
@@ -558,11 +566,3 @@
 ;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-type 'box)
 ;; タイトルを変更する
 ;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'title "J")
-
-
-
-
-
-;;;; 他のLispファイルをロード
-
-(load "~/.emacs.d/aliases")
