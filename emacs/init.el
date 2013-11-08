@@ -445,9 +445,9 @@
   (setq shell-file-name "/bin/zsh"))
 
 ;;; Macのメタキーの設定
-(when ns-p
-  (setq ns-command-modifier (quote meta))
-  (setq ns-alternate-modifier (quote super)))
+;(when ns-p
+;  (setq ns-command-modifier (quote meta))
+;  (setq ns-alternate-modifier (quote super)))
 
 ;;; サーバーモードをスタートします
 (server-start)
