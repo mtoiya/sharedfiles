@@ -375,14 +375,25 @@
 
 ;;;; 関数
 
-(defun kill-ring-save-whole-line (&optional arg)
-  "Save current line as if killed."
-  (interactive "p")
-  (let (linenum (line-number-at-pos))
-    (kill-whole-line arg)
-    (yank)
-    ;(goto-line linenum)
-    ))
+;; １行をキルリングに追加する。
+;; ※実行すると編集状態になってしまう問題があるので、下のキーボードマクロで対応することにした。
+;(defun kill-ring-save-whole-line (&optional arg)
+;  "Save current line as if killed."
+;  (interactive "p")
+;  (let (linenum (line-number-at-pos))
+;    (kill-whole-line arg)
+;    (yank)
+;    ;(goto-line linenum)
+;    ))
+
+
+
+
+
+;;;; キーボードマクロ
+
+(fset 'kill-ring-save-whole-line
+   [?\C-a ?\C-  ?\C-e ?\M-w ?\C-a])
 
 
 
