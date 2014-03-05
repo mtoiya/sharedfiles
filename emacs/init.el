@@ -85,12 +85,22 @@
 
 ;;;; helm
 
-;; helm-miniのキー
-(global-set-key (kbd "C-c h") 'helm-for-files)
+(global-set-key (kbd "C-c j") 'helm-for-files)
 (global-set-key (kbd "C-t") 'helm-mini)
 
 ;; helm-modeの設定
 ;(helm-mode 1)
+
+
+
+
+
+;;;; helm-ag
+
+(require 'helm-ag)
+(global-set-key (kbd "C-c k") 'helm-ag)
+(global-set-key (kbd "C-c K") 'helm-ag-pop-stack)
+(global-set-key (kbd "C-c C-k") 'helm-ag-this-file)
 
 
 
