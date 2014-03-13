@@ -35,8 +35,8 @@ fi
 
 alias du='du -h'
 alias dun='du / > /dev/null'
-alias e='emacsclient -nw'
-alias E='emacsclient -n'
+alias e='emacsclient -n'
+alias E='emacsclient -nw'
 alias f='find'
 alias g='git'
 alias ga='git add'
