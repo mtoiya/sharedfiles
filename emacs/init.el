@@ -9,7 +9,7 @@
 
 
 
-;;;; エイリアスををロード（本ファイルのロード失敗時にエイリアスが使えなくならないように、早めにロードしておきます）
+;;;; エイリアスをロード（本ファイルのロード途中で失敗した時にエイリアスが使えなくならないように、早めにロードしておきます）
 
 (load "~/.emacs.d/aliases")
 
@@ -31,17 +31,139 @@
 
 
 
-;;;; exec-pathの設定
+;;;; いろいろな設定
 
+;; kill-ring-save-whole-lineのキー割り当て
+(global-set-key (kbd "M-W") 'kill-ring-save-whole-line)
+
+;;; タブ幅を設定します
+;; デフォルトのタブ幅
+(setq-default tab-width 4)
+;; TABキー押下時にタブの代わりにスペースを挿入する
+;(setq-default indent-tabs-mode nil)
+;; TABキー押下時にスペース２個を挿入する
+;(setq-default tab-stop-list (number-sequence 2 120 2))
+;; CやC++モードのデフォルトインデントレベル
+;(setq-default c-basic-offset 4)
+;; C/C++/Objective-C/Java等のタブ・インデント設定
+;(add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
+
+;; インデントスタイル
+(setq c-default-style "stroustrup")
+
+;;; 行番号・桁番号を表示する
+(line-number-mode 1)
+(column-number-mode 1)
+
+;;; ツールバーとスクロールバーを消す
+(tool-bar-mode -1)
+(when (not cygwin-p)
+  (scroll-bar-mode -1))
+
+;;; シェルに合わせるため、C-hは後退に割り当てる
+;;; ヘルプは<f1>も使えるので
+(global-set-key (kbd "C-h") 'delete-backward-char)
+
+;;; yesと入力するのは面倒なのでyで十分
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;;; ファイル内のカーソル位置を記憶する
+(setq-default save-place t)
+(require 'saveplace)
+
+;; 最近のファイル1000個を保存する
+(setq recentf-max-saved-items 1000)
+
+;; 最近使ったファイルに加えないファイルを正規表現で指定する
+;(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
+
+;; 起動時に*GNU Emacs*バッファを表示しないようにする
+(setq inhibit-startup-message t)
+
+;; scratchバッファの空にします
+(setq initial-scratch-message "")
+
+;;; Shellモードの時にzshを使う。
+(when unix-p
+  (setq shell-file-name "/bin/zsh"))
+
+;;; Macのメタキーの設定
+(when ns-p
+  (setq ns-command-modifier (quote meta))
+  (setq ns-alternate-modifier (quote super)))
+
+;;; サーバーモードをスタートします
+(server-start)
+
+;; emacsclientから開いたバッファを閉じる機能を「C-x C-c」に割り当てる。
+(global-set-key (kbd "C-x C-c") 'server-edit)
+;; 逆にEmacsの終了方法を変更する。
+(defalias 'quit 'save-buffers-kill-emacs)
+
+;;; 対応する括弧を表示させる
+(show-paren-mode 1)
+
+;;; 他のウィンドウへ移動するコマンドの実行を楽にする
+(global-set-key (kbd "C-l") 'other-window)
+
+;;; view-modeの切り替えを楽にする
+(global-set-key (kbd "C-j") 'view-mode)
+;; jk同時押しでview-mode切り替え
+;(key-chord-define-global "jk" 'view-mode)
+
+;;; 直前のバッファに移動する
+(global-set-key (kbd "C-^") '(lambda () (interactive) (switch-to-buffer nil)))
+
+;;; フォント設定（http://sakito.jp/emacs/emacs23.htmlから）
+(when ns-p
+  (when (>= emacs-major-version 23)
+    (set-face-attribute 'default nil
+                        :family "monaco"
+                        :height 120)
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'japanese-jisx0208
+     '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'japanese-jisx0212
+     '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'mule-unicode-0100-24ff
+     '("monaco" . "iso10646-1"))
+    (setq face-font-rescale-alist
+          '(("^-apple-hiragino.*" . 1.2)
+            (".*osaka-bold.*" . 1.2)
+            (".*osaka-medium.*" . 1.2)
+            (".*courier-bold-.*-mac-roman" . 1.0)
+            (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+            (".*monaco-bold-.*-mac-roman" . 0.9)
+            ("-cdac$" . 1.3)))))
+
+;;; バックアップファイルを作成する場所
+(if unix-p
+    (setq backup-directory-alist
+          (cons (cons "\\.*$" (expand-file-name "~/tmp"))
+                backup-directory-alist))
+  (when nt-p
+    (setq backup-directory-alist
+          (cons (cons "\\.*$" (expand-file-name "~/.emacs.d/backup"))
+                backup-directory-alist))))
+
+;; Alt+`で英語／日本語を切り替えた時に出るエラーメッセージを無視する設定。
+(when nt-p
+  (global-set-key [M-kanji] 'ignore)
+  (global-set-key [kanji] 'ignore))
+
+;; revert-buffer時、バッファが編集中でない場合は確認しない（すべてのファイルを対象としている）。
+(setq revert-without-query (list ".*"))
+
+;; exec-pathの設定
 (when darwin-p
   (add-to-list 'exec-path "/usr/local/bin"))
 
-
-
-
-
-;;;; Proxyサーバーの設定
-
+;; Proxyサーバーの設定
 (when tse-p
   (setq url-using-proxy t)
   (setq url-proxy-services '(("http" . "192.168.10.2:8080"))))
@@ -411,131 +533,6 @@
 
 ;;;; その他の設定
 
-;; kill-ring-save-whole-lineのキー割り当て
-(global-set-key (kbd "M-W") 'kill-ring-save-whole-line)
-
-;;; タブ幅を設定します
-;; デフォルトのタブ幅
-(setq-default tab-width 4)
-;; TABキー押下時にタブの代わりにスペースを挿入する
-;(setq-default indent-tabs-mode nil)
-;; TABキー押下時にスペース２個を挿入する
-;(setq-default tab-stop-list (number-sequence 2 120 2))
-;; CやC++モードのデフォルトインデントレベル
-;(setq-default c-basic-offset 4)
-;; C/C++/Objective-C/Java等のタブ・インデント設定
-;(add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
-
-;; インデントスタイル
-(setq c-default-style "stroustrup")
-
-;;; 行番号・桁番号を表示する
-(line-number-mode 1)
-(column-number-mode 1)
-
-;;; ツールバーとスクロールバーを消す
-(tool-bar-mode -1)
-(when (not cygwin-p)
-  (scroll-bar-mode -1))
-
-;;; シェルに合わせるため、C-hは後退に割り当てる
-;;; ヘルプは<f1>も使えるので
-(global-set-key (kbd "C-h") 'delete-backward-char)
-
-;;; yesと入力するのは面倒なのでyで十分
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;;; ファイル内のカーソル位置を記憶する
-(setq-default save-place t)
-(require 'saveplace)
-
-;; 最近のファイル1000個を保存する
-(setq recentf-max-saved-items 1000)
-
-;; 最近使ったファイルに加えないファイルを正規表現で指定する
-;(setq recentf-exclude '("/TAGS$" "/var/tmp/"))
-
-;; 起動時に*GNU Emacs*バッファを表示しないようにする
-(setq inhibit-startup-message t)
-
-;; scratchバッファの空にします
-(setq initial-scratch-message "")
-
-;;; Shellモードの時にzshを使う。
-(when unix-p
-  (setq shell-file-name "/bin/zsh"))
-
-;;; Macのメタキーの設定
-(when ns-p
-  (setq ns-command-modifier (quote meta))
-  (setq ns-alternate-modifier (quote super)))
-
-;;; サーバーモードをスタートします
-(server-start)
-
-;; emacsclientから開いたバッファを閉じる機能を「C-x C-c」に割り当てる。
-(global-set-key (kbd "C-x C-c") 'server-edit)
-;; 逆にEmacsの終了方法を変更する。
-(defalias 'quit 'save-buffers-kill-emacs)
-
-;;; 対応する括弧を表示させる
-(show-paren-mode 1)
-
-;;; 他のウィンドウへ移動するコマンドの実行を楽にする
-(global-set-key (kbd "C-l") 'other-window)
-
-;;; view-modeの切り替えを楽にする
-(global-set-key (kbd "C-j") 'view-mode)
-;; jk同時押しでview-mode切り替え
-;(key-chord-define-global "jk" 'view-mode)
-
-;;; 直前のバッファに移動する
-(global-set-key (kbd "C-^") '(lambda () (interactive) (switch-to-buffer nil)))
-
-;;; フォント設定（http://sakito.jp/emacs/emacs23.htmlから）
-(when ns-p
-  (when (>= emacs-major-version 23)
-    (set-face-attribute 'default nil
-                        :family "monaco"
-                        :height 120)
-    (set-fontset-font
-     (frame-parameter nil 'font)
-     'japanese-jisx0208
-     '("Hiragino Maru Gothic Pro" . "iso10646-1"))
-    (set-fontset-font
-     (frame-parameter nil 'font)
-     'japanese-jisx0212
-     '("Hiragino Maru Gothic Pro" . "iso10646-1"))
-    (set-fontset-font
-     (frame-parameter nil 'font)
-     'mule-unicode-0100-24ff
-     '("monaco" . "iso10646-1"))
-    (setq face-font-rescale-alist
-          '(("^-apple-hiragino.*" . 1.2)
-            (".*osaka-bold.*" . 1.2)
-            (".*osaka-medium.*" . 1.2)
-            (".*courier-bold-.*-mac-roman" . 1.0)
-            (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-            (".*monaco-bold-.*-mac-roman" . 0.9)
-            ("-cdac$" . 1.3)))))
-
-;;; バックアップファイルを作成する場所
-(if unix-p
-    (setq backup-directory-alist
-          (cons (cons "\\.*$" (expand-file-name "~/tmp"))
-                backup-directory-alist))
-  (when nt-p
-    (setq backup-directory-alist
-          (cons (cons "\\.*$" (expand-file-name "~/.emacs.d/backup"))
-                backup-directory-alist))))
-
-;; Alt+`で英語／日本語を切り替えた時に出るエラーメッセージを無視する設定。
-(when nt-p
-  (global-set-key [M-kanji] 'ignore)
-  (global-set-key [kanji] 'ignore))
-
-;; revert-buffer時、バッファが編集中でない場合は確認しない（すべてのファイルを対象としている）。
-(setq revert-without-query (list ".*"))
 
 ;;; 起動時に最大化する
 ;(toggle-frame-maximized) ; <M-f10>で可能なので起動時自動実行しなくても良さそう
