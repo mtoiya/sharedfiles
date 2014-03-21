@@ -33,6 +33,21 @@
 
 ;;;; いろいろな設定
 
+;;; requireに失敗してもエラーにならないようにする対応
+
+;; 未インストールのパッケージをrequireしてもエラーにしない関数定義
+(defun require-safe (pkg)
+  (let ((val (require pkg nil t)))
+    (if val
+        val
+      (progn (warn (concat "failed to require: " (symbol-name pkg)))
+             nil))))
+;; requireに成功した時にのみ実行する処理を簡単に書くためのマクロ
+(defmacro when-required (pkg &rest body)
+  (declare (indent 1))
+  `(when (require-safe ,pkg)
+     ,@body))
+
 ;; kill-ring-save-whole-lineのキー割り当て
 (global-set-key (kbd "M-W") 'kill-ring-save-whole-line)
 
@@ -175,10 +190,10 @@
 ;;;; package
 
 ;; パッケージ取得先URLを追加します。
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+(when-required 'package
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (package-initialize))
 
 
 
@@ -186,10 +201,10 @@
 
 ;;;; auto-async-byte-compile
 
-;(require 'auto-async-byte-compile)
-;; 自動バイトコンパイルを無効にするファイル名の正規表現
-;(setq auto-async-byte-compile-exclude-files-regexp "/junk/")
-;(add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+(when-required 'auto-async-byte-compile
+  ;; 自動バイトコンパイルを無効にするファイル名の正規表現
+  (setq auto-async-byte-compile-exclude-files-regexp "/junk/")
+  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
 
 
 
@@ -197,9 +212,9 @@
 
 ;;;; key-chord
 
-;(require 'key-chord)
-;(setq key-chord-two-keys-delay 0.04)
-;(key-chord-mode 1)
+(when-required 'key-chord
+  (setq key-chord-two-keys-delay 0.04)
+  (key-chord-mode 1))
 
 
 
@@ -219,10 +234,10 @@
 
 ;;;; helm-ag
 
-(require 'helm-ag)
-(global-set-key (kbd "C-c k") 'helm-ag)
-(global-set-key (kbd "C-c K") 'helm-ag-pop-stack)
-(global-set-key (kbd "C-c C-k") 'helm-ag-this-file)
+(when-required 'helm-ag
+  (global-set-key (kbd "C-c k") 'helm-ag)
+  (global-set-key (kbd "C-c K") 'helm-ag-pop-stack)
+  (global-set-key (kbd "C-c C-k") 'helm-ag-this-file))
 
 
 
@@ -230,14 +245,14 @@
 
 ;;;; auto-complete
 
-(require 'auto-complete)
-(require 'auto-complete-config)
-(global-auto-complete-mode t)
+(when-required 'auto-complete
+  (when-required 'auto-complete-config
+	(global-auto-complete-mode t)
 
-;; 自動で候補を表示しないようにする
-(setq ac-auto-start nil)
-;; その代わりTAB（C-i）キーで候補を出せるようにする
-(ac-set-trigger-key "TAB")
+	;; 自動で候補を表示しないようにする
+	(setq ac-auto-start nil)
+	;; その代わりTAB（C-i）キーで候補を出せるようにする
+	(ac-set-trigger-key "TAB")))
 
 
 
@@ -253,9 +268,9 @@
 
 ;;;; gtags
 
-;(require 'gtags)
-;(add-hook 'c-mode-common-hook 'gtags-mode)
-;(add-hook 'c++-mode-hook 'gtags-mode)
+(when-required 'gtags
+  (add-hook 'c-mode-common-hook 'gtags-mode)
+  (add-hook 'c++-mode-hook 'gtags-mode))
 
 
 
@@ -264,14 +279,14 @@
 ;;;; color-theme
 
 (when (not (eq window-system nil))
-  (require 'color-theme)
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)
-       ;; この下に好きなテーマを書く
-       (color-theme-snowish)
-       ;(color-theme-sitaramv-solaris)
-       )))
+  (when-required 'color-theme
+	(eval-after-load "color-theme"
+	  '(progn
+		 (color-theme-initialize)
+		 ;; この下に好きなテーマを書く
+		 (color-theme-snowish)
+		 ;(color-theme-sitaramv-solaris)
+		 ))))
 
 
 
@@ -279,11 +294,11 @@
 
 ;;;; uniquify
 
-(require 'uniquify)
-;; filename<dir>形式のバッファ名にする
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-;; *で囲まれたバッファ名は対象外にする
-(setq uniquify-ignore-buffers-re "*[^*]+*")
+(when-required 'uniquify
+  ;; filename<dir>形式のバッファ名にする
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+  ;; *で囲まれたバッファ名は対象外にする
+  (setq uniquify-ignore-buffers-re "*[^*]+*"))
 
 
 
@@ -292,21 +307,21 @@
 ;;;; bm
 
 ;(setq bm-restore-repository-on-load t)
-(require 'bm)
-(setq-default bm-buffer-persistence t)
-(setq bm-repository-file "~/.emacs.d/.bm-repository")
-(add-hook' after-init-hook 'bm-repository-load)
-(add-hook 'find-file-hooks 'bm-buffer-restore)
-(add-hook 'kill-buffer-hook 'bm-buffer-save)
-(add-hook 'after-save-hook 'bm-buffer-save)
-(add-hook 'after-revert-hook 'bm-buffer-restore)
-(add-hook 'vc-before-checkin-hook 'bm-buffer-save)
-(add-hook 'kill-emacs-hook '(lambda nil
-                              (bm-buffer-save-all)
-                              (bm-repository-save)))
-(global-set-key (kbd "M-@") 'bm-toggle)
-(global-set-key (kbd "M-[") 'bm-previous)
-(global-set-key (kbd "M-]") 'bm-next)
+(when-required 'bm
+  (setq-default bm-buffer-persistence t)
+  (setq bm-repository-file "~/.emacs.d/.bm-repository")
+  (add-hook' after-init-hook 'bm-repository-load)
+  (add-hook 'find-file-hooks 'bm-buffer-restore)
+  (add-hook 'kill-buffer-hook 'bm-buffer-save)
+  (add-hook 'after-save-hook 'bm-buffer-save)
+  (add-hook 'after-revert-hook 'bm-buffer-restore)
+  (add-hook 'vc-before-checkin-hook 'bm-buffer-save)
+  (add-hook 'kill-emacs-hook '(lambda nil
+								(bm-buffer-save-all)
+								(bm-repository-save)))
+  (global-set-key (kbd "M-@") 'bm-toggle)
+  (global-set-key (kbd "M-[") 'bm-previous)
+  (global-set-key (kbd "M-]") 'bm-next))
 
 
 
@@ -314,8 +329,8 @@
 
 ;;;; shell-switcher
 
-(require 'shell-switcher)
-(setq shell-switcher-mode t)
+(when-required 'shell-switcher
+  (setq shell-switcher-mode t))
 
 
 
@@ -323,24 +338,25 @@
 
 ;;;; viewer
 
-(require 'viewer)
+(when-required 'viewer
 
-;; 特定のファイルをview-modeで開く
-(setq view-mode-by-default-regexp "\.log$") ; 全ファイルを対象にする
+  ;; 特定のファイルをview-modeで開く
+  (setq view-mode-by-default-regexp "\.log$") ; 全ファイルを対象にする
 
-;; すべてのファイルをview-modeで開く
-;(viewer-aggressive-setup 'force) ; これが何故か効かない
+  ;; すべてのファイルをview-modeで開く
+										;(viewer-aggressive-setup 'force) ; これが何故か効かない
 
-;; 書き込み不能ファイルでview-modeから抜けなくなる
-(viewer-stay-in-setup)
+  ;; 書き込み不能ファイルでview-modeから抜けなくなる
+  (viewer-stay-in-setup)
 
-;; view-modeの時にモードラインに色を付ける
-;(setq viewer-modeline-color-unwritable "tomato"
-;      viewer-modeline-color-view "orange")
-;(viewer-change-modeline-color-setup)
+  ;; view-modeの時にモードラインに色を付ける
+										;(setq viewer-modeline-color-unwritable "tomato"
+										;      viewer-modeline-color-view "orange")
+										;(viewer-change-modeline-color-setup)
 
-;; こうしないとview-modeを切り替えた時にモードラインの色が変わらなかった。
-;(add-hook 'view-mode-hook 'viewer-change-modeline-color)
+  ;; こうしないとview-modeを切り替えた時にモードラインの色が変わらなかった。
+										;(add-hook 'view-mode-hook 'viewer-change-modeline-color)
+  )
 
 
 
@@ -348,23 +364,23 @@
 
 ;;;; org-remember
 
-(require 'org)
-(require 'org-remember)
+(when-required 'org
+  (when-required 'org-remember
 
-(org-remember-insinuate)
+	(org-remember-insinuate)
 
-;; メモを格納するorgファイルの設定
-(if darwin-p
-    (setq org-directory "~/Dropbox/Documents/")
-  (when nt-p
-    (setq org-directory "~/Dropbox/Documents/"))) ; HOME環境変数が設定されていることが前提
+	;; メモを格納するorgファイルの設定
+	(if darwin-p
+		(setq org-directory "~/Dropbox/Documents/")
+	  (when nt-p
+		(setq org-directory "~/Dropbox/Documents/"))) ; HOME環境変数が設定されていることが前提
 
-(setq org-default-notes-file (expand-file-name "memo.org" org-directory))
+	(setq org-default-notes-file (expand-file-name "memo.org" org-directory))
 
-;; テンプレートの設定
-(setq org-remember-templates
-      '(("Note" ?n "** %?\n   %T" nil "Inbox")
-        ("Todo" ?t "** TODO %?\n   %T" nil "Inbox")))
+	;; テンプレートの設定
+	(setq org-remember-templates
+		  '(("Note" ?n "** %?\n   %T" nil "Inbox")
+			("Todo" ?t "** TODO %?\n   %T" nil "Inbox"))))
 
 
 
@@ -372,43 +388,39 @@
 
 ;;;; migemo
 
-;; CygwinではMigemoを使わないようにします（Migemoを使う方法が確立していないので）
-(when (not cygwin-p)
+(when-required 'migemo
 
-(require 'migemo)
+  ;; cmigemoを使う
+  (if unix-p
+	  (setq migemo-command "~/bin/cmigemo")
+	(when nt-p
+	  (setq migemo-command "C:/Applications/cmigemo-default-win64/cmigemo")))
 
-;; cmigemoを使う
-(if unix-p
-    (setq migemo-command "~/bin/cmigemo")
-  (when nt-p
-    (setq migemo-command "C:/Applications/cmigemo-default-win64/cmigemo")))
+  (setq migemo-options ' ("-q" "--emacs"))
 
-(setq migemo-options ' ("-q" "--emacs"))
+  ;; migemo-dictのパスを設定
+  (if darwin-p
+	  (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+	(when nt-p
+	  (setq migemo-dictionary "C:/Applications/cmigemo-default-win64/dict/cp932/migemo-dict")))
 
-;; migemo-dictのパスを設定
-(if darwin-p
-    (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-  (when nt-p
-    (setq migemo-dictionary "C:/Applications/cmigemo-default-win64/dict/cp932/migemo-dict")))
+  (setq migemo-user-dictionary nil)
+  (setq migemo-regex-dictionary nil)
 
-(setq migemo-user-dictionary nil)
-(setq migemo-regex-dictionary nil)
+  (if unix-p
+	  (setq migemo-coding-system 'utf-8)
+	(when nt-p
+	  (setq migemo-coding-system 'cp932))))
 
-(if unix-p
-    (setq migemo-coding-system 'utf-8)
-  (when nt-p
-    (setq migemo-coding-system 'cp932)))
-
-) ; End of "when not cygwin-p"
 
 
 
 
 ;;;; color-moccur
 
-(require 'color-moccur)
-;; スペースで区切られた複数の単語にマッチさせる
-(setq moccur-split-word t)
+(when-required 'color-moccur
+  ;; スペースで区切られた複数の単語にマッチさせる
+  (setq moccur-split-word t))
 
 
 
@@ -416,7 +428,7 @@
 
 ;;;;  recentf-ext
 
-(require 'recentf-ext)
+(require-safe 'recentf-ext)
 
 
 
@@ -424,9 +436,9 @@
 
 ;;;; point-undo
 
-(require 'point-undo)
-(define-key global-map (kbd "<f7>") 'point-undo)
-(define-key global-map (kbd "S-<f7>") 'point-redo)
+(when-required 'point-undo
+  (define-key global-map (kbd "<f7>") 'point-undo)
+  (define-key global-map (kbd "S-<f7>") 'point-redo))
 
 
 
@@ -463,10 +475,10 @@
 (define-key view-mode-map (kbd "K") 'View-scroll-line-backward)
 
 ;; bm.elの設定
-(require 'bm)
-(define-key view-mode-map (kbd "m") 'bm-toggle)
-(define-key view-mode-map (kbd "[") 'bm-previous)
-(define-key view-mode-map (kbd "]") 'bm-next)
+(when-required 'bm
+  (define-key view-mode-map (kbd "m") 'bm-toggle)
+  (define-key view-mode-map (kbd "[") 'bm-previous)
+  (define-key view-mode-map (kbd "]") 'bm-next)
 
 
 
@@ -483,12 +495,12 @@
 
 ;;;; yasnippet
 
-(require 'yasnippet)
+(when-required 'yasnippet
 
-;; スニペット置き場を追加する。
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/my-snippets")
+  ;; スニペット置き場を追加する。
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/my-snippets")
 
-(yas-global-mode 1)
+  (yas-global-mode 1))
 
 
 
@@ -496,10 +508,9 @@
 
 ;;;; elscreen
 
-;(require 'elscreen)
-
-;; プレフィックスキーの設定
-;(elscreen-set-prefix-key "\C-q")
+(when-required 'elscreen
+  ;; プレフィックスキーの設定
+  (elscreen-set-prefix-key "\C-q"))
 
 
 
