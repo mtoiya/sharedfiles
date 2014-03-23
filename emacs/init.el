@@ -9,14 +9,6 @@
 
 
 
-;;;; エイリアスをロード（本ファイルのロード途中で失敗した時にエイリアスが使えなくならないように、早めにロードしておきます）
-
-(load "~/.emacs.d/aliases")
-
-
-
-
-
 ;;;; 環境の判定に使う変数の定義
 
 (setq darwin-p  (eq system-type 'darwin)
@@ -26,6 +18,24 @@
       nt-p      (eq system-type 'windows-nt)
       windows-p (or cygwin-p nt-p)
       unix-p    (or darwin-p linux-p cygwin-p))
+
+
+
+
+
+;;;; エイリアス定義
+
+(defalias 'bcf 'byte-compile-file)
+(defalias 'lf 'load-file)
+(defalias 'lt 'load-theme)
+(defalias 'obm 'occur-by-moccur)
+(defalias 'plp 'package-list-packages)
+(defalias 'plpn 'package-list-packages-no-fetch)
+(defalias 'qrr 'query-replace-regexp) ; 正規表現置換
+(defalias 'rb 'revert-buffer)
+(defalias 'ssn 'shell-switcher-new-shell)
+(defalias 'tff 'toggle-frame-fullscreen)
+(defalias 'tfm 'toggle-frame-maximized)
 
 
 
