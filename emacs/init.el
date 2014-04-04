@@ -390,7 +390,7 @@
 	;; テンプレートの設定
 	(setq org-remember-templates
 		  '(("Note" ?n "** %?\n   %T" nil "Inbox")
-			("Todo" ?t "** TODO %?\n   %T" nil "Inbox"))))
+			("Todo" ?t "** TODO %?\n   %T" nil "Inbox")))))
 
 
 
@@ -488,7 +488,7 @@
 (when-required 'bm
   (define-key view-mode-map (kbd "m") 'bm-toggle)
   (define-key view-mode-map (kbd "[") 'bm-previous)
-  (define-key view-mode-map (kbd "]") 'bm-next)
+  (define-key view-mode-map (kbd "]") 'bm-next))
 
 
 
