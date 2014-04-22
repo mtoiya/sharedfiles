@@ -65,7 +65,7 @@
 ;; デフォルトのタブ幅
 (setq-default tab-width 4)
 ;; TABキー押下時にタブの代わりにスペースを挿入する
-;(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 ;; TABキー押下時にスペース２個を挿入する
 ;(setq-default tab-stop-list (number-sequence 2 120 2))
 ;; CやC++モードのデフォルトインデントレベル
