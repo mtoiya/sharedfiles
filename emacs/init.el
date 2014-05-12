@@ -232,8 +232,9 @@
 
 ;;;; helm
 
-(global-set-key (kbd "C-c j") 'helm-for-files)
+(global-set-key (kbd "M-g j") 'helm-for-files)
 (global-set-key (kbd "C-t") 'helm-mini)
+(global-set-key (kbd "M-g o") 'helm-occur)
 
 ;; helm-modeの設定
 ;(helm-mode 1)
@@ -245,9 +246,27 @@
 ;;;; helm-ag
 
 (when-required 'helm-ag
-  (global-set-key (kbd "C-c k") 'helm-ag)
-  (global-set-key (kbd "C-c K") 'helm-ag-pop-stack)
-  (global-set-key (kbd "C-c C-k") 'helm-ag-this-file))
+  (global-set-key (kbd "M-g k") 'helm-ag)
+  (global-set-key (kbd "M-g K") 'helm-ag-pop-stack)
+  (global-set-key (kbd "M-g M-k") 'helm-ag-this-file))
+
+
+
+
+
+;;;; helm-bm
+
+(when-required 'helm-bm
+  (global-set-key (kbd "M-g b") 'helm-bm))
+
+
+
+
+
+;;;; helm-descbinds
+
+(when-required 'helm-descbinds
+  (global-set-key (kbd "M-g d") 'helm-descbinds))
 
 
 
