@@ -370,7 +370,7 @@
 (when-required 'viewer
 
   ;; 特定のファイルをview-modeで開く
-  (setq view-mode-by-default-regexp "\.log$") ; 全ファイルを対象にする
+  (setq view-mode-by-default-regexp "\\.log$") ; 全ファイルを対象にする
 
   ;; すべてのファイルをview-modeで開く
 										;(viewer-aggressive-setup 'force) ; これが何故か効かない
