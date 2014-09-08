@@ -139,6 +139,15 @@
 ;;; 直前のバッファに移動する
 (global-set-key (kbd "C-^") '(lambda () (interactive) (switch-to-buffer nil)))
 
+;;; revert-bufferの簡略
+(global-set-key (kbd "<f5>") 'revert-buffer)
+
+;;; バッファの文字サイズ縮小化を楽にする
+(global-set-key (kbd "<f11>") 'text-scale-decrease)
+
+;;; バッファの文字サイズ拡大化を楽にする
+(global-set-key (kbd "<f12>") 'text-scale-increase)
+
 ;;; フォント設定（http://sakito.jp/emacs/emacs23.htmlから）
 (when ns-p
   (when (>= emacs-major-version 23)
