@@ -161,6 +161,12 @@ then
 fi
 
 alias q='exit'
+
+if [[ "$UNAME" == "Darwin" ]]
+then
+  alias quit_finder='osascript -e "tell application \"Finder\" to quit"'
+fi
+
 alias realias="${EDITOR} ~/.sh_aliases ; source ~/.sh_aliases"
 alias refunction="${EDITOR} ~/.sh_functions ; source ~/.sh_functions"
 alias rr='rm -R'
