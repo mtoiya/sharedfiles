@@ -72,6 +72,8 @@
 ;(setq-default c-basic-offset 4)
 ;; C/C++/Objective-C/Java等のタブ・インデント設定
 ;(add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
+;; Javaのタブ・インデント設定
+(add-hook 'java-mode-hook '(lambda () (setq indent-tabs-mode t)))
 
 ;; インデントスタイル
 (setq c-default-style "stroustrup")
