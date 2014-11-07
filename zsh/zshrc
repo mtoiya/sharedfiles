@@ -1,5 +1,5 @@
 PROMPT="%% "
-RPROMPT="[%~]"
+#RPROMPT="[%~]"
 
 autoload -U compinit
 compinit
