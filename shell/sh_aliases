@@ -73,8 +73,7 @@ then
 fi
 
 alias h='history'
-alias ht='htop'
-alias ht3='htop -d 30'
+alias ht='htop -d 30'
 alias j='pushd'
 alias j.='pushd ..'
 alias j..='pushd ../..'
