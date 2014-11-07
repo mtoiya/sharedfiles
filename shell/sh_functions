@@ -89,6 +89,12 @@ usage_and_exit()
 error()
 {
 	printf "Error: $@\n" 1>&2
+	exit 1
+}
+
+error_and_usage()
+{
+	printf "Error: $@\n" 1>&2
 	usage_and_exit 1
 }
 
