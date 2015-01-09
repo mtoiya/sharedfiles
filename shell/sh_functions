@@ -110,22 +110,22 @@ function symlink_to_hotdir
 	ln -s $src ${HOME}/hot/${dst}
 }
 
-function svn_unknown_files
+function s_unknown_files
 {
 	svn st | grep '^\?' | tr '^\?' ' ' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
 }
 
-function svn_modified_files
+function s_modified_files
 {
 	svn st | grep '^M' | sed 's/^M//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
 }
 
-function svn_missed_files
+function s_missed_files
 {
 	svn st | grep '^!' | sed 's/^!//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
 }
 
-function svn_add_unknown_files
+function s_add_unknown_files
 {
 	svn st | grep '^?' | sed 's/^?[\ ]*//' | sed 's/[ ]/\\ /g' | xargs svn add
 }
@@ -146,19 +146,19 @@ function bzr_modified_files
 	bzr st -S | grep '^\ M' | sed 's/^\ M\**//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
 }
 
-function git_modified_files
+function g_modified_files
 {
 	local dir=${1:-.}
 	git status -s "$dir" | grep '^\ M' | sed 's/^\ M\**//' | sed 's/^[\ ]*//' | sed 's/[ ]/\\ /g'
 }
 
-function git_unknown_files
+function g_unknown_files
 {
 	local dir=${1:-.}
 	git status -s "$dir" | grep '^??' | sed 's/^??[\ ]*//' | sed 's/[ ]/\\ /g'
 }
 
-function git_deleted_files
+function g_deleted_files
 {
 	local dir=${1:-.}
 	git status -s "$dir" | grep '^ D ' | sed 's/^ *D //'
