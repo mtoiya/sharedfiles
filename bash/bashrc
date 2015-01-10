@@ -24,5 +24,7 @@ fi
 set -o vi
 
 # autojumpの設定
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
-
+if type brew > /dev/null 2>&1
+then
+  [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+fi
