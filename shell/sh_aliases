@@ -119,10 +119,12 @@ alias Ls='ls -L'
 alias La='ls -LlA'
 alias m='less'
 
-if [[ "$UNAME" == "Darwin" ]]
+if type mdfind > /dev/null 2>&1 # [[ "$UNAME" == "Darwin" ]]
 then
-  alias mdf='mdfind -onlyin .'
-  alias mdfn='mdfind -onlyin . -name '
+  alias mdf='mdfind'
+  alias mdfn='mdfind -name '
+  alias cmdf='mdfind -onlyin .'
+  alias cmdfn='mdfind -onlyin . -name '
 fi
 
 alias mecp='secure_copy_to_ssh_client'
