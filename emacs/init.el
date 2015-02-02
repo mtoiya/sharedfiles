@@ -132,9 +132,6 @@
   (setq ns-command-modifier (quote meta))
   (setq ns-alternate-modifier (quote super)))
 
-;;; サーバーモードをスタートします
-(server-start)
-
 ;; emacsclientから開いたバッファを閉じる機能を「C-x C-c」に割り当てる。
 (global-set-key (kbd "C-x C-c") 'server-edit)
 ;; 逆にEmacsの終了方法を変更する。
@@ -654,3 +651,6 @@
 ;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'cursor-type 'box)
 ;; タイトルを変更する
 ;(mac-set-input-method-parameter "com.google.inputmethod.Japanese.base" 'title "J")
+
+;;; サーバーモードをスタートします
+(server-start)
