@@ -87,13 +87,28 @@ alias j.........='pushd ../../../../../../../../..'
 alias j..........='pushd ../../../../../../../../../..'
 alias J='popd'
 alias jb=jobs
-alias l='ls -lT'
-alias la='ls -lTA'
-alias ln2hot='symlink_to_hotdir'
-alias lr='ls -lR'
-alias lra='ls -lRA'
 
 if [[ "$UNAME" == "Darwin" ]]
+then
+  if type gls > /dev/null 2>&1
+  then
+    alias l='ls -l'
+  else
+    alias l='ls -lT'
+  fi
+else
+  alias l='ls -l'
+fi
+
+alias la='l -A'
+alias ln2hot='symlink_to_hotdir'
+alias lr='ls -R'
+alias lra='lr -A'
+
+if type gls > /dev/null 2>&1
+then
+  alias ls='gls -h --color'
+elif [[ "$UNAME" == "Darwin" ]]
 then
   alias ls='ls -Gh'
 elif [[ "$UNAME" == "Linux" ]]
