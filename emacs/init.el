@@ -69,11 +69,24 @@
 ;; TABキー押下時にスペース２個を挿入する
 ;(setq-default tab-stop-list (number-sequence 2 120 2))
 ;; CやC++モードのデフォルトインデントレベル
-;(setq-default c-basic-offset 4)
-;; C/C++/Objective-C/Java等のタブ・インデント設定
-;(add-hook 'c-mode-common-hook '(lambda () (setq tab-stop-list (number-sequence 4 120 4) indent-tabs-mode t)))
-;; Javaのタブ・インデント設定
-(add-hook 'java-mode-hook '(lambda () (setq indent-tabs-mode t)))
+;(setq-default c-basic-offset 2)
+
+;; C++モードのタブ・インデント設定
+(add-hook 'c++-mode-hook
+          '(lambda ()
+             (setq indent-tabs-mode nil)
+             (setq-default c-basic-offset 2)
+             ))
+
+;; Javaモードのタブ・インデント設定
+(add-hook 'java-mode-hook
+          '(lambda ()
+             (setq indent-tabs-mode nil)
+             (setq-default c-basic-offset 2)
+             ))
+
+;; 拡張子hのファイルをC++モードで開く
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; インデントスタイル
 (setq c-default-style "stroustrup")
