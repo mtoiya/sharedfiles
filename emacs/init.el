@@ -88,6 +88,9 @@
 ;; 拡張子hのファイルをC++モードで開く
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
+;; 拡張子mmのファイルをObjCモードで開く
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+
 ;; インデントスタイル
 (setq c-default-style "stroustrup")
 
