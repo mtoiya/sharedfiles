@@ -75,14 +75,14 @@
 (add-hook 'c++-mode-hook
           '(lambda ()
              (setq indent-tabs-mode nil)
-             (setq-default c-basic-offset 2)
+             (setq c-basic-offset 2)
              ))
 
 ;; Javaモードのタブ・インデント設定
 (add-hook 'java-mode-hook
           '(lambda ()
-             (setq indent-tabs-mode nil)
-             (setq-default c-basic-offset 2)
+             (setq indent-tabs-mode t)
+             (setq c-basic-offset 4)
              ))
 
 ;; 拡張子hのファイルをC++モードで開く
