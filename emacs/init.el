@@ -464,7 +464,11 @@
   (if unix-p
 	  (setq migemo-coding-system 'utf-8)
 	(when nt-p
-	  (setq migemo-coding-system 'cp932))))
+	  (setq migemo-coding-system 'cp932)))
+
+  ;; recentfの絞り込み時にmigemoを使えるようにする
+  (when-required 'helm-files
+    (push '(migemo) helm-source-recentf)))
 
 
 
@@ -565,6 +569,14 @@
 (when-required 'elscreen
   ;; プレフィックスキーの設定
   (elscreen-set-prefix-key "\C-q"))
+
+
+
+
+
+;;;; helm-migemo
+
+(when-required 'helm-migemo ())
 
 
 
