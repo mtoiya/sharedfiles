@@ -18,6 +18,12 @@ then
 fi
 
 alias c='cat'
+
+if type cless > /dev/null 2>&1
+then
+  alias cm=cless
+fi
+
 alias d='dirs -v'
 alias df='df -h'
 
@@ -101,6 +107,7 @@ else
 fi
 
 alias la='l -A'
+
 alias ln2hot='symlink_to_hotdir'
 alias lr='ls -R'
 alias lra='lr -A'
