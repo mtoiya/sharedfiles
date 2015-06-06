@@ -154,7 +154,7 @@ alias mk='make'
 alias mkn='make -n'
 alias mksh='make_shell_script'
 alias mt=mount
-alias n='nkf'
+alias n='geeknote'
 alias nj='ninja'
 
 if [[ "$UNAME" == "Darwin" ]]
