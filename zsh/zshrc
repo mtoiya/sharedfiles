@@ -44,6 +44,9 @@ setopt hist_reduce_blanks
 # 履歴を共有する
 setopt share_history
 
+# pushdでのディレクトリの重複を無くす
+setopt PUSHD_IGNORE_DUPS
+
 if [[ -e "$HOME/.myprojects" ]]
 then
   for rcfile in $HOME/.myprojects/*.rc
