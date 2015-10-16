@@ -219,6 +219,9 @@
 
 (savehist-mode 1)
 
+;; recentfを自動クリーンアップしないようにする
+(setq recentf-auto-cleanup 'never)
+
 
 
 
