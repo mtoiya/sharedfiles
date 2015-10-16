@@ -80,6 +80,7 @@ fi
 
 alias h='history'
 alias ht='htop -d 30'
+alias ifc=ifconfig
 alias j='pushd'
 alias j.='pushd ..'
 alias j..='pushd ../..'
