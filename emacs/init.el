@@ -263,8 +263,8 @@
 
 ;;;; helm
 
-(global-set-key (kbd "C-c C-f") 'helm-for-files)
-(global-set-key (kbd "C-c C-c") 'helm-mini)
+(global-set-key (kbd "C-c f") 'helm-for-files)
+(global-set-key (kbd "C-c c") 'helm-mini)
 (global-set-key (kbd "C-;") 'helm-mini)
 (global-set-key (kbd "C-c o") 'helm-occur)
 
@@ -289,7 +289,7 @@
 ;;;; helm-bm
 
 (when-required 'helm-bm
-  (global-set-key (kbd "C-c C-b") 'helm-bm))
+  (global-set-key (kbd "C-c b") 'helm-bm))
 
 
 
@@ -298,7 +298,7 @@
 ;;;; helm-descbinds
 
 (when-required 'helm-descbinds
-  (global-set-key (kbd "C-c C-d") 'helm-descbinds))
+  (global-set-key (kbd "C-c d") 'helm-descbinds))
 
 
 
@@ -592,7 +592,7 @@
 ;;;; helm-swoop
 
 (when-required 'helm-swoop
-  (global-set-key (kbd "C-c C-s") 'helm-swoop))
+  (global-set-key (kbd "C-c s") 'helm-swoop))
 
 
 
