@@ -158,6 +158,7 @@ alias mk='make'
 alias mkn='make -n'
 alias mksh='make_shell_script'
 alias mt=mount
+alias mv='mv -i'
 alias n='geeknote'
 alias nj='ninja'
 
