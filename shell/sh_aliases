@@ -10,6 +10,9 @@ alias backup='rsync -av --delete'
 if [[ "$UNAME" == "Darwin" ]]
 then
   alias b='brew'
+  alias bch='brew cask home'
+  alias bci='brew cask info'
+  alias bcs='brew cask search'
   alias bh='brew home'
   alias bi='brew info'
   alias bl='brew list'
