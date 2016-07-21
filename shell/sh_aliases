@@ -12,6 +12,7 @@ then
   alias b='brew'
   alias bch='brew cask home'
   alias bci='brew cask info'
+  alias bcl='brew cask list'
   alias bcs='brew cask search'
   alias bh='brew home'
   alias bi='brew info'
