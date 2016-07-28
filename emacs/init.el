@@ -103,6 +103,10 @@
 (when (not cygwin-p)
   (scroll-bar-mode -1))
 
+;;; メニューを消す
+(when nt-p
+  (menu-bar-mode -1))
+
 ;;; シェルに合わせるため、C-hは後退に割り当てる
 ;;; ヘルプは<f1>も使えるので
 (global-set-key (kbd "C-h") 'delete-backward-char)
