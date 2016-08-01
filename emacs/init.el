@@ -197,7 +197,7 @@
 ;;; バックアップファイルを作成する場所
 (if unix-p
     (setq backup-directory-alist
-          (cons (cons "\\.*$" (expand-file-name "~/tmp"))
+          (cons (cons "\\.*$" (expand-file-name "~/tmp/emacs"))
                 backup-directory-alist))
   (when nt-p
     (setq backup-directory-alist
