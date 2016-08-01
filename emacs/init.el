@@ -602,6 +602,18 @@
 
 
 
+;;;; slime
+
+;; CLISPをデフォルトのCommon Lisp処理系に設定
+(setq inferior-lisp-program "clisp")
+
+(when-required 'slime
+  (slime-setup '(slime-repl slime-fancy slime-banner)))
+
+
+
+
+
 ;;;; 関数
 
 ;; １行をキルリングに追加する。
