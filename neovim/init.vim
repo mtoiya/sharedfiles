@@ -26,6 +26,20 @@ call plug#end()
 
 
 "
+" プラグインがインストールされているかどうかを判定する関数定義
+" from https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0
+"
+
+let s:plug = {
+  \ "plugs": get(g:, 'plugs', {})
+  \ }
+function! s:plug.is_installed(name)
+  return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
+endfunction
+
+
+
+"
 " denite 設定
 "
 
@@ -52,21 +66,24 @@ function! s:denite_my_settings() abort
     \ denite#do_map('toggle_select').'j'
 endfunction
 
-" file/rec に ripgrep を使用する
-call denite#custom#var('file/rec', 'command',
-  \ ['rg', '--files', '--glob', '!.git', '--color', 'never'])
+if s:plug.is_installed("denite")
+  " file/rec に ripgrep を使用する
+  call denite#custom#var('file/rec', 'command',
+    \ ['rg', '--files', '--glob', '!.git', '--color', 'never'])
 
-" Floating Window を使用する
-"" https://qiita.com/lighttiger2505/items/d4a3371399cfe6dbdd56
-let s:denite_win_width_percent = 0.85
-let s:denite_win_height_percent = 0.7
-call denite#custom#option('default', {
-  \ 'split': 'floating',
-  \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
-  \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
-  \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
-  \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
-  \ })
+  " Floating Window を使用する
+  "" https://qiita.com/lighttiger2505/items/d4a3371399cfe6dbdd56
+  let s:denite_win_width_percent = 0.85
+  let s:denite_win_height_percent = 0.7
+  call denite#custom#option('default', {
+    \ 'split': 'floating',
+    \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+    \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+    \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+    \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+    \ })
+
+endif
 
 
 
