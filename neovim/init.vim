@@ -21,6 +21,9 @@ endif
 "" denite の file_mru ソースを使うのに必要
 Plug 'Shougo/neomru.vim'
 
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 call plug#end()
 
 
