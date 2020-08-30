@@ -69,7 +69,7 @@ function! s:denite_my_settings() abort
     \ denite#do_map('toggle_select').'j'
 endfunction
 
-if s:plug.is_installed("denite")
+if s:plug.is_installed("denite.nvim")
   " file/rec に ripgrep を使用する
   call denite#custom#var('file/rec', 'command',
     \ ['rg', '--files', '--glob', '!.git', '--color', 'never'])
