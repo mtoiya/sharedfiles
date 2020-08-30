@@ -1,5 +1,5 @@
 
-"
+"""
 " plug.vim の設定
 "
 
@@ -28,7 +28,7 @@ call plug#end()
 
 
 
-"
+"""
 " プラグインがインストールされているかどうかを判定する関数定義
 " from https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0
 "
@@ -42,7 +42,7 @@ endfunction
 
 
 
-"
+"""
 " denite 設定
 "
 
