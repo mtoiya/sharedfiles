@@ -103,4 +103,9 @@ endif
 
 
 inoremap <C-g> <ESC>
+nnoremap ; :
+nnoremap <Space>r :%s///gc<Left><Left><Left><Left>
+
+set expandtab
 set tabstop=4
+set shiftwidth=4
