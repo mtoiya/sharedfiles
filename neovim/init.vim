@@ -24,6 +24,8 @@ Plug 'Shougo/neomru.vim'
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'sheerun/vim-polyglot'
+
 call plug#end()
 
 
@@ -102,10 +104,14 @@ endif
 
 
 
+syntax enable
+
+filetype plugin indent on
+
+"set expandtab
+"set tabstop=4
+"set shiftwidth=4
+
 inoremap <C-g> <ESC>
 nnoremap ; :
 nnoremap <Space>r :%s//gc<Left><Left><Left>
-
-set expandtab
-set tabstop=4
-set shiftwidth=4
