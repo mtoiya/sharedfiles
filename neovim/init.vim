@@ -108,9 +108,9 @@ syntax enable
 
 filetype plugin indent on
 
-"set expandtab
-"set tabstop=4
-"set shiftwidth=4
+set expandtab
+set tabstop=4
+set shiftwidth=4
 
 inoremap <C-g> <ESC>
 nnoremap ; :
